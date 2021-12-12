@@ -1,3 +1,3 @@
-﻿export interface Area {
+﻿export interface Location {
 	name: string;
 }

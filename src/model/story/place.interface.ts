@@ -1,6 +1,6 @@
-﻿import { Area } from './area.interface';
+﻿import { Location } from './area.interface';
 
 export interface Place {
 	name: string;
-	areas: Area[];
+	locations: Location[];
 }
