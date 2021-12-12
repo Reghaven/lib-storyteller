@@ -2,6 +2,7 @@
 
 export interface Story {
 	title: string;
+	text: string;
 	firstStorySnippet: StorySnippet;
 }
 
