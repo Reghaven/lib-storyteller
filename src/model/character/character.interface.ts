@@ -1,10 +1,10 @@
 ﻿import { Location } from '../story/area.interface';
-import { Asset, EquippableAsset } from '../story/asset.interface';
+import {Asset, AssetInstance, EquippableAsset} from '../story/asset.interface';
 
 export interface Character {
 	name: string;
 	currentLocation: Location;
-	assets: Asset[];
+	assets: AssetInstance[];
 
 	equipment: Equipment;
 }
