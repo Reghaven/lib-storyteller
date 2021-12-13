@@ -1,12 +1,13 @@
 ﻿import { Location } from '../story/area.interface';
-import { Asset, EquippableAsset } from '../story/asset.interface';
-import { DataStore } from '../../data-store.class';
+import { Attribute, EquippableAsset } from '../story/asset.interface';
+import { IAssetInstance } from '../asset-entity.type';
 
 export interface Character {
 	name: string;
 	currentLocation: Location;
 
-	assets: DataStore<Asset>;
+	assets: Map<string, IAssetInstance>;
+	attributes: Map<string, Attribute>;
 
 	equipment: Equipment;
 }

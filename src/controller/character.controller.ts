@@ -1,7 +1,9 @@
 ﻿/** provides methods to interact with a character */
 import { Character } from '../model/character/character.interface';
-import { IEntity, IEntityRequest } from '../data-store.class';
-import { Asset } from '../model/story/asset.interface';
+import {
+	IAssetInstance,
+	IAssetInstanceRequest,
+} from '../model/asset-entity.type';
 
 export class CharacterController {
 	/**
@@ -10,11 +12,11 @@ export class CharacterController {
 	 * @param character
 	 */
 	public static hasPlayerEnoughAssetInstance(
-		requiredAssetInstance: IEntityRequest,
+		requiredAssetInstance: IAssetInstanceRequest,
 		character: Character
 	): boolean {
 		const [requiredName, requiredAmount] = requiredAssetInstance;
-		const fetchedInstance = character.assets.fetch(requiredName);
+		const fetchedInstance = character.assets.get(requiredName);
 		if (!fetchedInstance) return false;
 
 		const [, availableAmount] = fetchedInstance;
@@ -27,24 +29,24 @@ export class CharacterController {
 	 * @param character
 	 */
 	public static giveAssetInstanceToPlayer(
-		newAssetInstance: IEntity<Asset>,
+		newAssetInstance: IAssetInstance,
 		character: Character
 	): void {
 		const [asset, amount] = newAssetInstance;
-		const existingAssetEntity = character.assets.fetch(asset.name);
+		const existingAssetEntity = character.assets.get(asset.name);
 
 		// if entity is new, just add it
-		if (!existingAssetEntity)
-			return character.assets.store(asset.name, newAssetInstance);
+		if (!existingAssetEntity) {
+			character.assets.set(asset.name, newAssetInstance);
+			return;
+		}
 
 		// if entity exists, add the amount
 		const [existingAsset, existingAmount] = existingAssetEntity;
 		const newAmount = existingAmount + amount;
+		const newInstance: IAssetInstance = [existingAsset, newAmount];
 
-		return character.assets.store(existingAsset.name, [
-			existingAsset,
-			newAmount,
-		]);
+		character.assets.set(existingAsset.name, newInstance);
 	}
 
 	/**
@@ -53,28 +55,47 @@ export class CharacterController {
 	 * @param character
 	 */
 	public static removeAssetFromPlayer(
-		assetInstanceToRemove: AssetInstance,
+		assetInstanceToRemove: IAssetInstanceRequest,
 		character: Character
 	): boolean {
 		const hasEnough = this.hasPlayerEnoughAssetInstance(
 			assetInstanceToRemove,
 			character
 		);
-
 		if (!hasEnough) return false;
-		for (const characterAssetInstance of character.assetInstances) {
-			if (
-				characterAssetInstance.asset.name ===
-				assetInstanceToRemove.asset.name
-			) {
-				characterAssetInstance.quantity -=
-					assetInstanceToRemove.quantity;
-				return true;
-			}
+
+		// check if exists
+		const [toRemoveName, toRemoveAmount] = assetInstanceToRemove;
+		const existingAssetInstance = character.assets.get(toRemoveName);
+		if (!existingAssetInstance) {
+			return false;
 		}
 
-		return false;
+		// update amount or delete if amount set to 0
+		const [existingAsset, existingAmount] = existingAssetInstance;
+		const newAmount = existingAmount - toRemoveAmount;
+		if (newAmount <= 0) {
+			character.assets.delete(toRemoveName);
+			return true;
+		}
+
+		character.assets.set(existingAsset.name, [existingAsset, newAmount]);
+		return true;
 	}
 
-	public async fetchPlayerAttributeByName(attributeName: string) {}
+	/**
+	 *
+	 * @param attributeName
+	 * @param character
+	 */
+	public static fetchPlayerAttributeByName(
+		attributeName: string,
+		character: Character
+	) {
+		return character.attributes.get(attributeName);
+	}
+}
+
+function calculatePropertyLevel(points: number) {
+	return Math.floor(Math.log(points) / Math.log(1.2));
 }
