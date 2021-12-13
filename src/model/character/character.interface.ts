@@ -1,5 +1,9 @@
 ﻿import { Location } from '../story/area.interface';
-import {Asset, AssetInstance, EquippableAsset} from '../story/asset.interface';
+import {
+	Asset,
+	AssetInstance,
+	EquippableAsset,
+} from '../story/asset.interface';
 
 export interface Character {
 	name: string;
