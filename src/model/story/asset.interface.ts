@@ -1,5 +1,5 @@
 ﻿import { Effect } from './effect.interface';
-import { IEntity } from '../../data-store.class';
+import { IAssetInstance } from '../asset-entity.type';
 
 export interface Asset {
 	name: string;
@@ -15,8 +15,8 @@ export interface Attribute extends Asset {
 
 /** Player can use them to gain effects */
 export interface UsableAsset extends Asset {
-	givesCharacterAssets: IEntity<Asset>[];
-	removesCharacterAssets: IEntity<Asset>[];
+	givesCharacterAssets: IAssetInstance;
+	removesCharacterAssets: IAssetInstance;
 }
 
 /** Equippable */
