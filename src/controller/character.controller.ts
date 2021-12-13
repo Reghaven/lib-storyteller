@@ -1,6 +1,7 @@
 ﻿/** provides methods to interact with a character */
 import { Character } from '../model/character/character.interface';
-import { AssetInstance } from '../model/story/asset.interface';
+import { IEntity, IEntityRequest } from '../data-store.class';
+import { Asset } from '../model/story/asset.interface';
 
 export class CharacterController {
 	/**
@@ -9,18 +10,15 @@ export class CharacterController {
 	 * @param character
 	 */
 	public static hasPlayerEnoughAssetInstance(
-		requiredAssetInstance: AssetInstance,
+		requiredAssetInstance: IEntityRequest,
 		character: Character
 	): boolean {
-		for (const assetInstance of character.assetInstances) {
-			if (
-				requiredAssetInstance.asset.name === assetInstance.asset.name &&
-				requiredAssetInstance.quantity <= assetInstance.quantity
-			)
-				return true;
-		}
+		const [requiredName, requiredAmount] = requiredAssetInstance;
+		const fetchedInstance = character.assets.fetch(requiredName);
+		if (!fetchedInstance) return false;
 
-		return false;
+		const [, availableAmount] = fetchedInstance;
+		return requiredAmount >= availableAmount;
 	}
 
 	/**
@@ -29,18 +27,24 @@ export class CharacterController {
 	 * @param character
 	 */
 	public static giveAssetInstanceToPlayer(
-		newAssetInstance: AssetInstance,
+		newAssetInstance: IEntity<Asset>,
 		character: Character
 	): void {
-		for (const assetInstance of character.assetInstances) {
-			// if player has assets, add it
-			if (assetInstance.asset.name === newAssetInstance.asset.name) {
-				assetInstance.quantity += newAssetInstance.quantity;
-				return;
-			}
-		}
-		// if player has not already some, attach it
-		character.assetInstances.push(newAssetInstance);
+		const [asset, amount] = newAssetInstance;
+		const existingAssetEntity = character.assets.fetch(asset.name);
+
+		// if entity is new, just add it
+		if (!existingAssetEntity)
+			return character.assets.store(asset.name, newAssetInstance);
+
+		// if entity exists, add the amount
+		const [existingAsset, existingAmount] = existingAssetEntity;
+		const newAmount = existingAmount + amount;
+
+		return character.assets.store(existingAsset.name, [
+			existingAsset,
+			newAmount,
+		]);
 	}
 
 	/**
@@ -71,4 +75,6 @@ export class CharacterController {
 
 		return false;
 	}
+
+	public async fetchPlayerAttributeByName(attributeName: string) {}
 }

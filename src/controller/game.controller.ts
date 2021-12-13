@@ -25,7 +25,7 @@ export class GameController {
 	/**
 	 * submits a decision the player made
 	 * @private
-	 * @param options
+	 * @param gameDecision
 	 */
 	public static submitDecision(gameDecision: GameDecision): Character {
 		// validate
