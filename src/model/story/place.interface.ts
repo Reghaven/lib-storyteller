@@ -1,6 +1,8 @@
-﻿import { Location } from './area.interface';
-
-export interface Place {
+﻿export interface Place {
 	name: string;
 	locations: Location[];
+}
+
+export interface Location {
+	name: string;
 }
