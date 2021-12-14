@@ -1,6 +1,6 @@
-﻿import {Asset, Attribute} from './asset.interface';
-import {IAssetInstance} from "../asset-entity.type";
-import {Location} from "./place.interface";
+﻿import { Attribute } from './asset.interface';
+import { IAssetInstance } from '../asset-entity.type';
+import { Location } from './place.interface';
 
 export interface Story {
 	title: string;
@@ -12,29 +12,41 @@ export interface Story {
 export interface StorySnippet {
 	title: string;
 	text: string;
-	
+
 	conditionsToShow: {
 		// only show if player is at this place
-		location: Location;
+		characterIsAtLocation: Location;
 		// only show if player possesses at least these assets
-		assetsRequiredToDisplay: IAssetInstance[];
+		characterHasAssets: IAssetInstance[];
 		// do not show if player has any of these assets
-		assetsProhibitingDisplay: IAssetInstance[];
-	}
-	
+		characterHasNotAssets: IAssetInstance[];
+	};
+
 	// interactions the player can make with this story snippet
 	decisions: Decision[];
 }
 
+// a selection the player can make
 export interface Decision {
 	leadsToSnippet: StorySnippet;
 
-	requiredAssets: IAssetInstance[];
-	winResolveAssets: IAssetInstance[];
-	winDissolvesAssets: IAssetInstance[];
-	failResolveAssets: IAssetInstance[];
-	failDissolvesAssets: IAssetInstance[];
+	// conditions to see this decision
+	conditionsToShow: {
+		requiredAssets: IAssetInstance[];
+		attributeToActivate: Attribute;
+		attributeLevelFor100Percent: number;
+	};
 
-	attributeToActivate: Attribute;
-	levelForGuaranteedSuccess: number;
+	// everything that happens when you win
+	onWin: {
+		winResolveAssets: IAssetInstance[];
+		winDissolvesAssets: IAssetInstance[];
+		grantedAttributePoints: number; // based on the attribute to activate
+	};
+
+	// everything that happens when you loose
+	onFail: {
+		failResolveAssets: IAssetInstance[];
+		failDissolvesAssets: IAssetInstance[];
+	};
 }
