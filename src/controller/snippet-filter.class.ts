@@ -1,6 +1,5 @@
-﻿import { Story, StorySnippet } from '../model/story/story.interface';
+﻿import { Story } from '../model/story/story.interface';
 import { Character } from '../model/character/character.interface';
-import { IAssetInstance } from '../model/asset-entity.type';
 
 export class SnippetFilter {
 	public static allRelevantSnippets(stories: Story[]) {
@@ -11,6 +10,7 @@ export class SnippetFilter {
 
 	/**
 	 * returns all stories a player can interact with
+	 * place should be filtered beforehand to avoid having too many data in memory
 	 * @param stories
 	 * @param character
 	 * @private
@@ -19,12 +19,10 @@ export class SnippetFilter {
 		stories: Story[],
 		character: Character
 	): Story[] {
-		const allStoriesByAssets = this.storiesByAssets(stories, character);
-
-		return allStoriesByAssets;
+		return this.storiesByAssets(stories, character);
 	}
 
-	public static storiesByAssets(
+	private static storiesByAssets(
 		stories: Story[],
 		character: Character
 	): Story[] {
