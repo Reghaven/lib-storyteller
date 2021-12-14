@@ -28,10 +28,9 @@ export class SnippetFilter {
 		stories: Story[],
 		character: Character
 	): Story[] {
-		const selectedStories: Story[] = [];
 		const characterAssets = character.assets;
 
-		const filtered = stories.filter((story) => {
+		return stories.filter((story) => {
 			const assetsCharacterMayPossess =
 				story.conditionsToShow.characterHasAssets;
 			const assetsCharacterMayNotPossess =
