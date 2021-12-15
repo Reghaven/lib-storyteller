@@ -1,6 +1,6 @@
 ﻿import { Attribute, EquippableAsset } from '../story/asset.interface';
 import { IAssetInstance } from '../asset-entity.type';
-import { Place } from '../story/place.interface';
+import { Place, Location } from '../story/place.interface';
 
 export interface Character {
 	name: string;
