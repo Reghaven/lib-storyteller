@@ -89,6 +89,18 @@ export class SnippetFilter {
 		decisions: Decision[],
 		character: Character
 	): Decision[] {
-		return decisions;
+		return decisions.filter((decision) => {
+			const assetsCharacterMayNotPossess =
+				decision.conditionsToShow.characterHasNotAssets;
+			const assetsCharacterMayPossess =
+				decision.conditionsToShow.characterHasAssets;
+
+			// if player has ONE of these, do not show decision
+
+			// if player has not all of them, do not show decision
+
+			// else, return it
+			return true;
+		});
 	}
 }

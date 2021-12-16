@@ -24,12 +24,24 @@ export interface Decision {
 	conditionsToShow: {
 		// only show if player is at this place, if undefined, it will be shown everywhere
 		characterIsAtLocation?: Location;
-		requiredAssets: IAssetInstance[];
-		// if undefined, it will always be shown
-		attribute?: {
-			attributeToActivate: Attribute;
-			attributeLevelFor100Percent: number;
-		};
+		// only show if player possesses at least these assets, if empty, it is always shown
+		characterHasAssets: IAssetInstance[];
+		// do not show if player has any of these assets
+		characterHasNotAssets: IAssetInstance[];
+	};
+
+	// conditions to use this decision
+	conditionsToUse: {
+		// only show if player possesses at least these assets, if empty, it is always shown
+		characterHasAssets: IAssetInstance[];
+		// do not show if player has any of these assets
+		characterHasNotAssets: IAssetInstance[];
+	};
+
+	// if undefined, it will always be shown
+	attribute?: {
+		attributeToActivate: Attribute;
+		attributeLevelFor100Percent: number;
 	};
 
 	// everything that happens when you win
