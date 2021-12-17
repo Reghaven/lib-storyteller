@@ -94,8 +94,28 @@ export class CharacterController {
 	) {
 		return character.attributes.get(attributeName);
 	}
+
+	public static attributeCheck(
+		attribute: string,
+		levelForGrantedSuccess: number,
+		character: Character
+	): boolean {
+		const characterAttribute = character.attributes.get(attribute);
+		if (!characterAttribute) return false;
+
+		const characterAttributeLevel = calculatePropertyLevel(
+			characterAttribute.pointsCollected
+		);
+
+		if (characterAttributeLevel >= levelForGrantedSuccess) return true;
+		if (characterAttributeLevel <= 0) return false;
+		const probabilityForWin =
+			characterAttributeLevel / levelForGrantedSuccess;
+		const num = Math.random();
+		return num <= probabilityForWin;
+	}
 }
 
-function calculatePropertyLevel(points: number) {
+export function calculatePropertyLevel(points: number) {
 	return Math.floor(Math.log(points) / Math.log(1.2));
 }

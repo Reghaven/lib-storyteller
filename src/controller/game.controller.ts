@@ -2,6 +2,7 @@
 import { Decision, Story } from '../model/story/story.interface';
 import { SnippetFilter } from './snippet-filter.class';
 import { Location } from '../model/story/place.interface';
+import { IAssetInstance } from '../model/asset-entity.type';
 
 export interface GameState {
 	character: Character;
@@ -24,7 +25,9 @@ export class GameController {
 	 * @private
 	 * @param gameDecision
 	 */
-	public static submitDecision(gameDecision: GameDecision): void {
+	public static submitDecision(
+		gameDecision: GameDecision
+	): SubmitDecisionResult {
 		// validate
 		if (!this.canPlayerMakeDecision(gameDecision)) {
 			throw new Error('INVALID_DECISION');
@@ -32,7 +35,7 @@ export class GameController {
 
 		// stat roll for said decision
 
-		// on winn: provide/remove assets, change location
+		// on win: provide/remove assets, change location
 
 		// on loose: provide/remove assets, change location
 	}
@@ -48,4 +51,10 @@ export class GameController {
 			gameDecision.character
 		);
 	}
+}
+
+interface SubmitDecisionResult {
+	characterGainsAssetInstances: IAssetInstance[];
+	characterLoosesAssetInstances: IAssetInstance[];
+	characterGoesToLocation: Location;
 }
