@@ -95,6 +95,12 @@ export class CharacterController {
 		return character.attributes.get(attributeName);
 	}
 
+	/**
+	 * checks if player succeeds in an action
+	 * @param attribute
+	 * @param levelForGrantedSuccess
+	 * @param character
+	 */
 	public static attributeCheck(
 		attribute: string,
 		levelForGrantedSuccess: number,
