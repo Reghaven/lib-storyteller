@@ -1,7 +1,6 @@
 ﻿import { Decision, Story } from '../model/story/story.interface';
 import { Character } from '../model/character/character.interface';
 import { Location } from '../model/story/place.interface';
-import { Asset } from '../model/story/asset.interface';
 
 export class SnippetFilter {
 	public static allRelevantSnippets(stories: Story[], character: Character) {
@@ -14,6 +13,8 @@ export class SnippetFilter {
 			allDecisionsFromAllStories,
 			character.currentLocation
 		);
+
+		return this.decisionsByAssets(remainingDecisionsByLocation, character);
 	}
 
 	/**
@@ -85,6 +86,12 @@ export class SnippetFilter {
 		);
 	}
 
+	/**
+	 * filters decisions by assets
+	 * @param decisions
+	 * @param character
+	 * @private
+	 */
 	private static decisionsByAssets(
 		decisions: Decision[],
 		character: Character
