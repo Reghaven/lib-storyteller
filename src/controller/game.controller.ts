@@ -1,9 +1,10 @@
 ﻿import { Character } from '../model/character/character.interface';
 import { Decision, Story } from '../model/story/story.interface';
+import { SnippetFilter } from './snippet-filter.class';
 
 export interface GameState {
 	character: Character;
-	stories: Story;
+	stories: Story[];
 }
 
 export type GameDecision = GameState & { decision: Decision };
@@ -19,7 +20,7 @@ export class GameController {
 	 * should return all decisions a player can make based on his location and abilities
 	 */
 	public static retrievePossibleDecisions(gameState: GameState): Decision[] {
-		return [];
+		return SnippetFilter.allRelevantSnippets(gameState);
 	}
 
 	/**

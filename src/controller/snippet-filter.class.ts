@@ -1,20 +1,27 @@
 ﻿import { Decision, Story } from '../model/story/story.interface';
 import { Character } from '../model/character/character.interface';
 import { Location } from '../model/story/place.interface';
+import { GameState } from './game.controller';
 
 export class SnippetFilter {
-	public static allRelevantSnippets(stories: Story[], character: Character) {
-		const allRelevantStories = this.storiesByAssets(stories, character);
+	public static allRelevantSnippets(gameState: GameState) {
+		const allRelevantStories = this.storiesByAssets(
+			gameState.stories,
+			gameState.character
+		);
 		const allDecisionsFromAllStories = allRelevantStories
 			.map((story) => story.decisions)
 			.reduce((prev, current) => prev.concat(current));
 
 		const remainingDecisionsByLocation = this.decisionsByLocation(
 			allDecisionsFromAllStories,
-			character.currentLocation
+			gameState.character.currentLocation
 		);
 
-		return this.decisionsByAssets(remainingDecisionsByLocation, character);
+		return this.decisionsByAssets(
+			remainingDecisionsByLocation,
+			gameState.character
+		);
 	}
 
 	/**
