@@ -25,6 +25,46 @@ export class SnippetFilter {
 	}
 
 	/**
+	 * returns true if player possesses all required assets
+	 * @param decision
+	 * @param character
+	 */
+	public static characterCanMakeDecision(
+		decision: Decision,
+		character: Character
+	): boolean {
+		const assetsCharacterMayNotPossess =
+			decision.conditionsToShow.characterHasNotAssets;
+		const assetsCharacterMustPossess =
+			decision.conditionsToShow.characterHasAssets;
+
+		// if player has ONE of these, do not show decision
+		for (const assetCharacterMayNotPossess of assetsCharacterMayNotPossess) {
+			const [asset, assetCount] = assetCharacterMayNotPossess;
+
+			const characterAssetInstance = character.assets.get(asset.name);
+			if (characterAssetInstance === undefined) continue;
+
+			const [, characterAssetCount] = characterAssetInstance;
+			if (characterAssetCount >= assetCount) return false;
+		}
+
+		// if player has not all of them, do not show decision
+		for (const assetCharacterMustPossess of assetsCharacterMustPossess) {
+			const [asset, assetCount] = assetCharacterMustPossess;
+
+			const characterAssetInstance = character.assets.get(asset.name);
+			if (characterAssetInstance === undefined) return false;
+
+			const [, characterAssetCount] = characterAssetInstance;
+			if (characterAssetCount < assetCount) return false;
+		}
+
+		// else, return it
+		return true;
+	}
+
+	/**
 	 * return als stories by assets. They should be filtered by location by the database
 	 * @param stories
 	 * @param character
@@ -103,36 +143,8 @@ export class SnippetFilter {
 		decisions: Decision[],
 		character: Character
 	): Decision[] {
-		return decisions.filter((decision) => {
-			const assetsCharacterMayNotPossess =
-				decision.conditionsToShow.characterHasNotAssets;
-			const assetsCharacterMustPossess =
-				decision.conditionsToShow.characterHasAssets;
-
-			// if player has ONE of these, do not show decision
-			for (const assetCharacterMayNotPossess of assetsCharacterMayNotPossess) {
-				const [asset, assetCount] = assetCharacterMayNotPossess;
-
-				const characterAssetInstance = character.assets.get(asset.name);
-				if (characterAssetInstance === undefined) continue;
-
-				const [, characterAssetCount] = characterAssetInstance;
-				if (characterAssetCount >= assetCount) return false;
-			}
-
-			// if player has not all of them, do not show decision
-			for (const assetCharacterMustPossess of assetsCharacterMustPossess) {
-				const [asset, assetCount] = assetCharacterMustPossess;
-
-				const characterAssetInstance = character.assets.get(asset.name);
-				if (characterAssetInstance === undefined) return false;
-
-				const [, characterAssetCount] = characterAssetInstance;
-				if (characterAssetCount < assetCount) return false;
-			}
-
-			// else, return it
-			return true;
-		});
+		return decisions.filter((decision) =>
+			this.characterCanMakeDecision(decision, character)
+		);
 	}
 }
