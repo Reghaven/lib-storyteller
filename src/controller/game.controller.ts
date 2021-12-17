@@ -1,6 +1,7 @@
 ﻿import { Character } from '../model/character/character.interface';
 import { Decision, Story } from '../model/story/story.interface';
 import { SnippetFilter } from './snippet-filter.class';
+import { Location } from '../model/story/place.interface';
 
 export interface GameState {
 	character: Character;
@@ -8,11 +9,6 @@ export interface GameState {
 }
 
 export type GameDecision = GameState & { decision: Decision };
-
-export interface DecisionCharacterView {
-	decision: Decision;
-	playerCanSelect: boolean;
-}
 
 /** provides methods to interact with stories and submit decisions */
 export class GameController {
@@ -28,15 +24,17 @@ export class GameController {
 	 * @private
 	 * @param gameDecision
 	 */
-	public static submitDecision(gameDecision: GameDecision): Character {
+	public static submitDecision(gameDecision: GameDecision): void {
 		// validate
 		if (!this.canPlayerMakeDecision(gameDecision)) {
 			throw new Error('INVALID_DECISION');
 		}
 
-		// handle decision
+		// stat roll for said decision
 
-		return gameDecision.character;
+		// on winn: provide/remove assets, change location
+
+		// on loose: provide/remove assets, change location
 	}
 
 	/**
@@ -45,6 +43,9 @@ export class GameController {
 	 * @param gameDecision
 	 */
 	private static canPlayerMakeDecision(gameDecision: GameDecision): boolean {
-		return false;
+		return SnippetFilter.characterCanMakeDecision(
+			gameDecision.decision,
+			gameDecision.character
+		);
 	}
 }
