@@ -2,6 +2,7 @@
 import { Character } from '../model/character/character.interface';
 import { Location } from '../model/story/place.interface';
 import { GameState } from './game.controller';
+import { IAssetInstance } from '../model/asset-entity.type';
 
 export class SnippetFilter {
 	public static allRelevantSnippets(gameState: GameState) {
@@ -40,30 +41,52 @@ export class SnippetFilter {
 		const assetsCharacterMustPossess =
 			decision.conditionsToUse.characterHasAssets;
 
-		// if player has ONE of these, do not show decision
-		// TODO put loops in methods
-		for (const assetCharacterMayNotPossess of assetsCharacterMayNotPossess) {
-			const [asset, assetCount] = assetCharacterMayNotPossess;
+		// player needs all of required and none of forbidden assets
+		return (
+			this.characterHasAllOfAssetInstances(
+				assetsCharacterMustPossess,
+				character
+			) &&
+			!this.characterHasAnyOfAssetInstances(
+				assetsCharacterMayNotPossess,
+				character
+			)
+		);
+	}
 
+	private static characterHasAnyOfAssetInstances(
+		assetInstances: IAssetInstance[],
+		character: Character
+	): boolean {
+		for (const assetInstance of assetInstances) {
+			const [asset, assetCount] = assetInstance;
+
+			// if instance does not exist, continue
 			const characterAssetInstance = character.assets.get(asset.name);
 			if (characterAssetInstance === undefined) continue;
 
+			// if instance exists, count must be higher then required
 			const [, characterAssetCount] = characterAssetInstance;
-			if (characterAssetCount >= assetCount) return false;
+			if (characterAssetCount >= assetCount) return true;
 		}
+		return false;
+	}
 
-		// if player has not all of them, do not show decision
-		for (const assetCharacterMustPossess of assetsCharacterMustPossess) {
-			const [asset, assetCount] = assetCharacterMustPossess;
+	private static characterHasAllOfAssetInstances(
+		assetInstances: IAssetInstance[],
+		character: Character
+	): boolean {
+		for (const assetInstance of assetInstances) {
+			const [asset, assetCount] = assetInstance;
 
+			// if instance does not exist, continue
 			const characterAssetInstance = character.assets.get(asset.name);
 			if (characterAssetInstance === undefined) return false;
 
+			// if instance exists, count must be higher then required
 			const [, characterAssetCount] = characterAssetInstance;
 			if (characterAssetCount < assetCount) return false;
 		}
-
-		// else, return it
 		return true;
 	}
 
