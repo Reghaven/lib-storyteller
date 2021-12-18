@@ -100,8 +100,6 @@ export class SnippetFilter {
 		stories: Story[],
 		character: Character
 	): Story[] {
-		const characterAssets = character.assets;
-
 		return stories.filter((story) => {
 			const assetsCharacterMayPossess =
 				story.conditionsToShow.characterHasAssets;
@@ -109,35 +107,19 @@ export class SnippetFilter {
 				story.conditionsToShow.characterHasNotAssets;
 
 			// if player owns one of these, do not add the story
-			for (const assetInstanceCharacterMayNotPossess of assetsCharacterMayNotPossess) {
-				const [assetCharacterMayNotPossess, countPlayerMayNotPossess] =
-					assetInstanceCharacterMayNotPossess;
-				const characterAssetInstance = characterAssets.get(
-					assetCharacterMayNotPossess.name
-				);
-				if (!characterAssetInstance) continue;
 
-				const [, characterAssetCount] = characterAssetInstance;
-				if (characterAssetCount >= countPlayerMayNotPossess) {
-					return false;
-				}
-			}
+			const characterOwnsOneOfThese =
+				this.characterHasAnyOfAssetInstances(
+					assetsCharacterMayNotPossess,
+					character
+				);
+			if (characterOwnsOneOfThese) return false;
 
 			// if player has all of these, it is added, meaning if one is not found, it is not added
-			for (const assetInstanceCharacterMayPossess of assetsCharacterMayPossess) {
-				const [assetCharacterMayPossess, countPlayerMustPossess] =
-					assetInstanceCharacterMayPossess;
-				const characterAssetInstance = characterAssets.get(
-					assetCharacterMayPossess.name
-				);
-
-				if (characterAssetInstance === undefined) return false;
-				const [, characterAssetCount] = characterAssetInstance;
-
-				if (characterAssetCount < countPlayerMustPossess) return false;
-			}
-
-			return true;
+			return this.characterHasAllOfAssetInstances(
+				assetsCharacterMayPossess,
+				character
+			);
 		});
 	}
 
