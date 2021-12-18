@@ -6,7 +6,7 @@ import { IAssetInstance } from '../model/asset-entity.type';
 
 export class SnippetFilter {
 	public static allSnippetsCharacterCanSee(gameState: GameState) {
-		const allRelevantStories = this.storiesByAssets(
+		const allRelevantStories = this.storiesByAssetsToShow(
 			gameState.stories,
 			gameState.character
 		);
@@ -96,7 +96,7 @@ export class SnippetFilter {
 	 * @param character
 	 * @private
 	 */
-	private static storiesByAssets(
+	private static storiesByAssetsToShow(
 		stories: Story[],
 		character: Character
 	): Story[] {
