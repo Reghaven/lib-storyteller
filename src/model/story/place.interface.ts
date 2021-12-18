@@ -1,11 +1,6 @@
 ﻿export interface Place {
 	name: string;
-	locations: Location[];
-}
-
-// Locations that can be publicly reached via map
-export interface LocationMap {
-	locations: Location[];
+	locations: Map<string, Location>;
 }
 
 // a location that has snippets

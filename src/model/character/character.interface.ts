@@ -11,6 +11,7 @@ export interface Character {
 	attributes: Map<string, Attribute>;
 
 	equipment: Equipment;
+	unlockedLocations: Map<string, Location>;
 }
 
 export interface Equipment {
