@@ -18,7 +18,7 @@ export class GameController {
 	 * should return all decisions a player can make based on his location and abilities
 	 */
 	public static retrievePossibleDecisions(gameState: GameState): Decision[] {
-		return SnippetFilter.allRelevantSnippets(gameState);
+		return SnippetFilter.allSnippetsCharacterCanSee(gameState);
 	}
 
 	/**
