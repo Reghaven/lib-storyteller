@@ -3,6 +3,7 @@ import { Decision, Story } from '../model/story/story.interface';
 import { SnippetFilter } from './snippet-filter.class';
 import { Location } from '../model/story/place.interface';
 import { IAssetInstance } from '../model/asset-entity.type';
+import { CharacterController } from './character.controller';
 
 export interface GameState {
 	character: Character;
@@ -34,10 +35,57 @@ export class GameController {
 		}
 
 		// stat roll for said decision
+		const attributeName =
+			gameDecision.decision.attribute?.attributeToActivate.name;
+		const level =
+			gameDecision.decision.attribute?.attributeLevelFor100Percent;
+		// if no attribute is provided, the action should automatically succeed
+		if (!attributeName || !level) {
+			return {
+				characterGainsAssetInstances:
+					gameDecision.decision.onWin.winResolveAssets,
+				characterGoesToLocation:
+					gameDecision.decision.onWin.leadsToLocation ||
+					gameDecision.character.currentLocation,
+				characterLoosesAssetInstances:
+					gameDecision.decision.onWin.winDissolvesAssets,
+				characterWins: true,
+				text: gameDecision.decision.onWin.text,
+			};
+		}
+		const hasPlayerWonDecision = CharacterController.attributeCheck(
+			attributeName,
+			level,
+			gameDecision.character
+		);
 
 		// on win: provide/remove assets, change location
+		if (hasPlayerWonDecision) {
+			return {
+				characterGainsAssetInstances:
+					gameDecision.decision.onWin.winResolveAssets,
+				characterGoesToLocation:
+					gameDecision.decision.onWin.leadsToLocation ||
+					gameDecision.character.currentLocation,
+				characterLoosesAssetInstances:
+					gameDecision.decision.onWin.winDissolvesAssets,
+				characterWins: true,
+				text: gameDecision.decision.onWin.text,
+			};
+		}
 
 		// on loose: provide/remove assets, change location
+		return {
+			characterGainsAssetInstances:
+				gameDecision.decision.onFail.failResolveAssets,
+			characterGoesToLocation:
+				gameDecision.decision.onFail.leadsToLocation ||
+				gameDecision.character.currentLocation,
+			characterLoosesAssetInstances:
+				gameDecision.decision.onFail.failDissolvesAssets,
+			characterWins: false,
+			text: gameDecision.decision.onFail.text,
+		};
 	}
 
 	/**
@@ -53,8 +101,10 @@ export class GameController {
 	}
 }
 
-interface SubmitDecisionResult {
+export interface SubmitDecisionResult {
 	characterGainsAssetInstances: IAssetInstance[];
 	characterLoosesAssetInstances: IAssetInstance[];
 	characterGoesToLocation: Location;
+	characterWins: boolean;
+	text: string;
 }

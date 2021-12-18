@@ -18,6 +18,7 @@ export class SnippetFilter {
 			gameState.character.currentLocation
 		);
 
+		// here, filter by show is required
 		return this.decisionsByAssets(
 			remainingDecisionsByLocation,
 			gameState.character
@@ -26,6 +27,7 @@ export class SnippetFilter {
 
 	/**
 	 * returns true if player possesses all required assets
+	 * player can make decision when he fulfils all conditions to use it
 	 * @param decision
 	 * @param character
 	 */
@@ -34,11 +36,12 @@ export class SnippetFilter {
 		character: Character
 	): boolean {
 		const assetsCharacterMayNotPossess =
-			decision.conditionsToShow.characterHasNotAssets;
+			decision.conditionsToUse.characterHasNotAssets;
 		const assetsCharacterMustPossess =
-			decision.conditionsToShow.characterHasAssets;
+			decision.conditionsToUse.characterHasAssets;
 
 		// if player has ONE of these, do not show decision
+		// TODO put loops in methods
 		for (const assetCharacterMayNotPossess of assetsCharacterMayNotPossess) {
 			const [asset, assetCount] = assetCharacterMayNotPossess;
 
@@ -135,6 +138,7 @@ export class SnippetFilter {
 
 	/**
 	 * filters decisions by assets
+	 * TODO should be based on show, not use
 	 * @param decisions
 	 * @param character
 	 * @private
