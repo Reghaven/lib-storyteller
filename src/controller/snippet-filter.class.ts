@@ -5,7 +5,7 @@ import { GameState } from './game.controller';
 import { IAssetInstance } from '../model/asset-entity.type';
 
 export class SnippetFilter {
-	public static allRelevantSnippets(gameState: GameState) {
+	public static allSnippetsCharacterCanSee(gameState: GameState) {
 		const allRelevantStories = this.storiesByAssets(
 			gameState.stories,
 			gameState.character
@@ -143,7 +143,6 @@ export class SnippetFilter {
 
 	/**
 	 * filters decisions by assets
-	 * TODO should be based on show, not use
 	 * @param decisions
 	 * @param character
 	 * @private
@@ -152,8 +151,18 @@ export class SnippetFilter {
 		decisions: Decision[],
 		character: Character
 	): Decision[] {
-		return decisions.filter((decision) =>
-			this.characterCanMakeDecision(decision, character)
-		);
+		return decisions.filter((decision) => {
+			const characterHasForbiddenAssets =
+				this.characterHasAnyOfAssetInstances(
+					decision.conditionsToShow.characterHasNotAssets,
+					character
+				);
+			if (characterHasForbiddenAssets) return false;
+
+			return this.characterHasAllOfAssetInstances(
+				decision.conditionsToShow.characterHasAssets,
+				character
+			);
+		});
 	}
 }
