@@ -20,7 +20,7 @@ export class SnippetFilter {
 		);
 
 		// here, filter by show is required
-		return this.decisionsByAssets(
+		return this.decisionsByAssetsToShow(
 			remainingDecisionsByLocation,
 			gameState.character
 		);
@@ -147,7 +147,7 @@ export class SnippetFilter {
 	 * @param character
 	 * @private
 	 */
-	private static decisionsByAssets(
+	private static decisionsByAssetsToShow(
 		decisions: Decision[],
 		character: Character
 	): Decision[] {
