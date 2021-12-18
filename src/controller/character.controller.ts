@@ -4,6 +4,7 @@ import {
 	IAssetInstance,
 	IAssetInstanceRequest,
 } from '../model/asset-entity.type';
+import { Place, Location } from '../model/story/place.interface';
 
 export class CharacterController {
 	/**
@@ -84,18 +85,6 @@ export class CharacterController {
 	}
 
 	/**
-	 *
-	 * @param attributeName
-	 * @param character
-	 */
-	public static fetchPlayerAttributeByName(
-		attributeName: string,
-		character: Character
-	) {
-		return character.attributes.get(attributeName);
-	}
-
-	/**
 	 * checks if player succeeds in an action
 	 * @param attribute
 	 * @param levelForGrantedSuccess
@@ -119,6 +108,35 @@ export class CharacterController {
 			characterAttributeLevel / levelForGrantedSuccess;
 		const num = Math.random();
 		return num <= probabilityForWin;
+	}
+
+	public static addPlaceToCharacterMap(
+		place: Place,
+		character: Character
+	): void {
+		const locations = place.locations.filter(
+			(location) =>
+				location.isUnlockedFromBeginning && location.isVisibleOnMap
+		);
+		character.map.unlockedLocations.set(place.name, locations);
+	}
+
+	public static addLocationToCharacterMap(
+		placeOfNewLocation: string,
+		newLocation: Location,
+		character: Character
+	) {
+		// fetch place, add entry to list and store place again
+		const existingPlace =
+			character.map.unlockedLocations.get(placeOfNewLocation);
+		const updatedLocations = existingPlace || []; // init if undefined
+		updatedLocations.push({
+			name: newLocation.name,
+		});
+		character.map.unlockedLocations.set(
+			placeOfNewLocation,
+			updatedLocations
+		);
 	}
 }
 

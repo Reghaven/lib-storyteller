@@ -4,14 +4,23 @@ import { Place, Location } from '../story/place.interface';
 
 export interface Character {
 	name: string;
-	currentPlace: Place;
-	currentLocation: Location;
 
 	assets: Map<string, IAssetInstance>;
 	attributes: Map<string, Attribute>;
 
 	equipment: Equipment;
-	unlockedLocations: Map<string, Location>;
+
+	// determines where the player is and where he can go
+	map: {
+		currentPlace: Place;
+		currentLocation: Location;
+		// store place name as key and a list of locations as values
+		unlockedLocations: Map<string, CharacterMapEntry[]>;
+	};
+}
+
+interface CharacterMapEntry {
+	name: string;
 }
 
 export interface Equipment {

@@ -1,9 +1,11 @@
 ﻿export interface Place {
 	name: string;
-	locations: Map<string, Location>;
+	locations: Location[];
 }
 
 // a location that has snippets
 export interface Location {
 	name: string;
+	isVisibleOnMap: boolean;
+	isUnlockedFromBeginning: boolean;
 }

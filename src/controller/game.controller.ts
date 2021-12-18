@@ -46,7 +46,7 @@ export class GameController {
 					gameDecision.decision.onWin.winResolveAssets,
 				characterGoesToLocation:
 					gameDecision.decision.onWin.leadsToLocation ||
-					gameDecision.character.currentLocation,
+					gameDecision.character.map.currentLocation,
 				characterLoosesAssetInstances:
 					gameDecision.decision.onWin.winDissolvesAssets,
 				characterWins: true,
@@ -66,7 +66,7 @@ export class GameController {
 					gameDecision.decision.onWin.winResolveAssets,
 				characterGoesToLocation:
 					gameDecision.decision.onWin.leadsToLocation ||
-					gameDecision.character.currentLocation,
+					gameDecision.character.map.currentLocation,
 				characterLoosesAssetInstances:
 					gameDecision.decision.onWin.winDissolvesAssets,
 				characterWins: true,
@@ -80,7 +80,7 @@ export class GameController {
 				gameDecision.decision.onFail.failResolveAssets,
 			characterGoesToLocation:
 				gameDecision.decision.onFail.leadsToLocation ||
-				gameDecision.character.currentLocation,
+				gameDecision.character.map.currentLocation,
 			characterLoosesAssetInstances:
 				gameDecision.decision.onFail.failDissolvesAssets,
 			characterWins: false,
