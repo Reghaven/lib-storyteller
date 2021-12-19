@@ -1,8 +1,6 @@
 ﻿import { Decision, Story } from '../model/story/story.interface';
 import { Character } from '../model/character/character.interface';
-import { Location } from '../model/story/place.interface';
 import { GameState } from './game.controller';
-import { IAssetInstance } from '../model/asset-entity.type';
 import { CharacterController } from './character.controller';
 
 export class SnippetFilter {
