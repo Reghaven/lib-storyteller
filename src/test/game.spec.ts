@@ -24,6 +24,8 @@ describe('game simulation', () => {
 		expect(result.characterWins).toBeTruthy();
 		expect(result.text).toBe('Ah, refreshing as always.');
 		// the character should be updated accordingly
+		const coffee = character.assets.get('Coffee');
+		expect(coffee).toStrictEqual([{ name: 'Coffee', type: 'Normal' }, 1]);
 		const money = character.assets.get('Money');
 		expect(money).toStrictEqual([{ name: 'Money', type: 'Normal' }, 1]);
 	});
