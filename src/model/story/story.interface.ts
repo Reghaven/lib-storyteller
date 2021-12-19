@@ -19,6 +19,10 @@ export interface Story {
 
 // a selection the player can make, acts as story snippet
 export interface Decision {
+	//
+	title: string;
+	//
+	text: string;
 	// conditions to see this decision
 	conditionsToShow: {
 		// only show if player is at this place, if undefined, it will be shown everywhere
@@ -48,7 +52,7 @@ export interface Decision {
 		text: string;
 		winResolveAssets: IAssetInstance[];
 		winDissolvesAssets: IAssetInstance[];
-		grantedAttributePoints: number; // based on the attribute to activate
+		grantedAttributePoints?: number; // based on the attribute to activate
 		leadsToLocation?: Location;
 		leadsToPlace?: Place;
 	};

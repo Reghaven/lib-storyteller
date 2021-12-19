@@ -1,6 +1,6 @@
 ﻿import { Effect } from './effect.interface';
 
-enum AssetType {
+export enum AssetType {
 	Normal = 'Normal',
 	Attribute = 'Attribute',
 	Usable = 'Usable',

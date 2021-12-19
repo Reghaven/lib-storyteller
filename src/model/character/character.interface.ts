@@ -17,7 +17,10 @@ export interface Character {
 		currentPlace: string;
 		currentLocation: string;
 		// store place name as key and a list of locations as values
-		unlockedLocations: Map<string, CharacterMapEntry[]>;
+		unlockedLocations: Array<{
+			place: string;
+			locations: string[];
+		}>;
 	};
 }
 
@@ -26,9 +29,9 @@ interface CharacterMapEntry {
 }
 
 export interface Equipment {
-	head: EquippableAsset;
-	body: EquippableAsset;
-	wrist: EquippableAsset;
-	necklace: EquippableAsset;
-	shoes: EquippableAsset;
+	head?: EquippableAsset;
+	body?: EquippableAsset;
+	wrist?: EquippableAsset;
+	necklace?: EquippableAsset;
+	shoes?: EquippableAsset;
 }
