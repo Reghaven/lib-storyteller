@@ -153,6 +153,11 @@ export class CharacterController {
 		return num <= probabilityForWin;
 	}
 
+	/**
+	 *
+	 * @param place
+	 * @param character
+	 */
 	public static addPlaceToCharacterMap(
 		place: Place,
 		character: Character
@@ -164,6 +169,12 @@ export class CharacterController {
 		character.map.unlockedLocations.set(place.name, locations);
 	}
 
+	/**
+	 *
+	 * @param placeOfNewLocation
+	 * @param newLocation
+	 * @param character
+	 */
 	public static addLocationToCharacterMap(
 		placeOfNewLocation: string,
 		newLocation: Location,
