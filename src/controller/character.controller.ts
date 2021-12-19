@@ -1,10 +1,7 @@
 ﻿/** provides methods to interact with a character */
 import { Character } from '../model/character/character.interface';
-import {
-	IAssetInstance,
-	IAssetInstanceRequest,
-} from '../model/asset-entity.type';
 import { Place, Location } from '../model/story/place.interface';
+import { IAssetInstance } from '../model/story/asset.interface';
 
 export class CharacterController {
 	/**
@@ -13,11 +10,11 @@ export class CharacterController {
 	 * @param character
 	 */
 	public static hasPlayerEnoughAssetInstance(
-		requiredAssetInstance: IAssetInstanceRequest,
+		requiredAssetInstance: IAssetInstance,
 		character: Character
 	): boolean {
-		const [requiredName, requiredAmount] = requiredAssetInstance;
-		const fetchedInstance = character.assets.get(requiredName);
+		const [asset, requiredAmount] = requiredAssetInstance;
+		const fetchedInstance = character.assets.get(asset.name);
 		if (!fetchedInstance) return false;
 
 		const [, availableAmount] = fetchedInstance;
@@ -102,7 +99,7 @@ export class CharacterController {
 	 * @param character
 	 */
 	public static removeAssetFromPlayer(
-		assetInstanceToRemove: IAssetInstanceRequest,
+		assetInstanceToRemove: IAssetInstance,
 		character: Character
 	): boolean {
 		const hasEnough = this.hasPlayerEnoughAssetInstance(
@@ -112,8 +109,8 @@ export class CharacterController {
 		if (!hasEnough) return false;
 
 		// check if exists
-		const [toRemoveName, toRemoveAmount] = assetInstanceToRemove;
-		const existingAssetInstance = character.assets.get(toRemoveName);
+		const [assetToRemove, toRemoveAmount] = assetInstanceToRemove;
+		const existingAssetInstance = character.assets.get(assetToRemove.name);
 		if (!existingAssetInstance) {
 			return false;
 		}
@@ -122,7 +119,7 @@ export class CharacterController {
 		const [existingAsset, existingAmount] = existingAssetInstance;
 		const newAmount = existingAmount - toRemoveAmount;
 		if (newAmount <= 0) {
-			character.assets.delete(toRemoveName);
+			character.assets.delete(assetToRemove.name);
 			return true;
 		}
 
@@ -185,8 +182,20 @@ export class CharacterController {
 		);
 	}
 
-	// TODO method to resolve a decision with DecisionResult
-	// TODO link characterController Methods to GameController
+	/**
+	 * sets player to a specific place and location
+	 * @param place
+	 * @param location
+	 * @param character
+	 */
+	public static moveToLocation(
+		place: string,
+		location: string,
+		character: Character
+	) {
+		character.map.currentPlace = place;
+		character.map.currentLocation = location;
+	}
 }
 
 export function calculatePropertyLevel(points: number) {

@@ -1,8 +1,6 @@
 ﻿import { Character } from '../model/character/character.interface';
 import { Decision, Story } from '../model/story/story.interface';
 import { SnippetFilter } from './snippet-filter.class';
-import { Location } from '../model/story/place.interface';
-import { IAssetInstance } from '../model/asset-entity.type';
 import { CharacterController } from './character.controller';
 import { SubmitDecisionResult } from './types/submit-decision-result.interface';
 
@@ -48,6 +46,9 @@ export class GameController {
 				characterGoesToLocation:
 					gameDecision.decision.onWin.leadsToLocation?.name ||
 					gameDecision.character.map.currentLocation,
+				characterGoesToPlace:
+					gameDecision.decision.onWin.leadsToPlace?.name ||
+					gameDecision.character.map.currentPlace,
 				characterLoosesAssetInstances:
 					gameDecision.decision.onWin.winDissolvesAssets,
 				characterWins: true,
@@ -68,6 +69,9 @@ export class GameController {
 				characterGoesToLocation:
 					gameDecision.decision.onWin.leadsToLocation?.name ||
 					gameDecision.character.map.currentLocation,
+				characterGoesToPlace:
+					gameDecision.decision.onWin.leadsToPlace?.name ||
+					gameDecision.character.map.currentPlace,
 				characterLoosesAssetInstances:
 					gameDecision.decision.onWin.winDissolvesAssets,
 				characterWins: true,
@@ -82,11 +86,41 @@ export class GameController {
 			characterGoesToLocation:
 				gameDecision.decision.onFail.leadsToLocation?.name ||
 				gameDecision.character.map.currentLocation,
+			characterGoesToPlace:
+				gameDecision.decision.onFail.leadsToPlace?.name ||
+				gameDecision.character.map.currentPlace,
 			characterLoosesAssetInstances:
 				gameDecision.decision.onFail.failDissolvesAssets,
 			characterWins: false,
 			text: gameDecision.decision.onFail.text,
 		};
+	}
+
+	/**
+	 * changes properties in a character to match a decision
+	 * @param decisionResult
+	 * @param character
+	 * @private
+	 */
+	private static mutateCharacterWithDecision(
+		decisionResult: SubmitDecisionResult,
+		character: Character
+	): void {
+		// add and remove asset instances
+		for (const assetInstances of decisionResult.characterGainsAssetInstances)
+			CharacterController.giveAssetInstanceToPlayer(
+				assetInstances,
+				character
+			);
+		for (const assetInstance of decisionResult.characterLoosesAssetInstances)
+			CharacterController.removeAssetFromPlayer(assetInstance, character);
+
+		// change location
+		CharacterController.moveToLocation(
+			decisionResult.characterGoesToPlace,
+			decisionResult.characterGoesToLocation,
+			character
+		);
 	}
 
 	/**

@@ -1,6 +1,8 @@
-﻿import { Attribute, EquippableAsset } from '../story/asset.interface';
-import { IAssetInstance } from '../asset-entity.type';
-import { Place, Location } from '../story/place.interface';
+﻿import {
+	Attribute,
+	EquippableAsset,
+	IAssetInstance,
+} from '../story/asset.interface';
 
 export interface Character {
 	name: string;
@@ -12,7 +14,7 @@ export interface Character {
 
 	// determines where the player is and where he can go
 	map: {
-		currentPlace: Place;
+		currentPlace: string;
 		currentLocation: string;
 		// store place name as key and a list of locations as values
 		unlockedLocations: Map<string, CharacterMapEntry[]>;

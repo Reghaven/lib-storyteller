@@ -1,5 +1,4 @@
-﻿import { Attribute } from './asset.interface';
-import { IAssetInstance } from '../asset-entity.type';
+﻿import { Attribute, IAssetInstance } from './asset.interface';
 import { Location, Place } from './place.interface';
 
 export interface Story {
@@ -51,6 +50,7 @@ export interface Decision {
 		winDissolvesAssets: IAssetInstance[];
 		grantedAttributePoints: number; // based on the attribute to activate
 		leadsToLocation?: Location;
+		leadsToPlace?: Place;
 	};
 
 	// everything that happens when you loose
@@ -59,5 +59,6 @@ export interface Decision {
 		failResolveAssets: IAssetInstance[];
 		failDissolvesAssets: IAssetInstance[];
 		leadsToLocation?: Location;
+		leadsToPlace?: Place;
 	};
 }

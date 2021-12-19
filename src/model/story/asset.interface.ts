@@ -1,5 +1,4 @@
 ﻿import { Effect } from './effect.interface';
-import { IAssetInstance } from '../asset-entity.type';
 
 enum AssetType {
 	Normal = 'Normal',
@@ -12,6 +11,8 @@ export interface Asset {
 	name: string;
 	type: AssetType;
 }
+
+export type IAssetInstance = [Asset, number];
 
 /** Attributes */
 
