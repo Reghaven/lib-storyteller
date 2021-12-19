@@ -12,8 +12,9 @@ describe('game simulation', () => {
 			character,
 			stories,
 		});
-		expect(decisions.length).toBe(1);
+		expect(decisions.length).toBe(2);
 		expect(decisions[0].title).toBe('Drink some coffee');
+		expect(decisions[1].title).toBe('Work: Wash dishes');
 
 		// They want coffee? They'll get coffee, let them drink that stuff
 		const result = GameController.submitDecision({

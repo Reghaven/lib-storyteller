@@ -1,7 +1,7 @@
 ﻿import { Story } from '../../model/story/story.interface';
 import { Place } from '../../model/story/place.interface';
 import { Asset, AssetType } from '../../model/story/asset.interface';
-import { attributes } from './character.object';
+import { attributes } from './attributes.object';
 
 const places: { [key: string]: Place } = {
 	Cologne: {
@@ -30,7 +30,7 @@ export const Assets: { [key: string]: Asset } = {
 		name: 'Coffee',
 		type: AssetType.Normal,
 	},
-	['Job: Café']: {
+	['Worked at Café']: {
 		name: 'Job: Café',
 		type: AssetType.Normal,
 	},
@@ -73,7 +73,7 @@ export const StoryCafeObject: Story = {
 			title: 'Work: Wash dishes',
 			text: "It's a hard but honest work, just don't look at the water",
 			attribute: {
-				attributeToActivate: attributes.get('Strength')!,
+				attributeToActivate: attributes['Strength'],
 				attributeLevelFor100Percent: 1,
 			},
 			conditionsToShow: {
@@ -90,7 +90,7 @@ export const StoryCafeObject: Story = {
 				winDissolvesAssets: [],
 				winResolveAssets: [
 					[Assets['Money'], 3],
-					[Assets['Job: Café'], 1],
+					[Assets['Worked at Café'], 1],
 				],
 				grantedAttributePoints: 2,
 			},
