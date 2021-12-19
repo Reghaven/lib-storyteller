@@ -9,7 +9,7 @@ import {
 } from '../../model/story/asset.interface';
 import { Assets } from './story-cafe.object';
 
-const attributes: Map<string, Attribute> = new Map([
+export const attributes: Map<string, Attribute> = new Map([
 	[
 		'Strength',
 		{

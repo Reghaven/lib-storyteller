@@ -1,6 +1,7 @@
 ﻿import { Story } from '../../model/story/story.interface';
 import { Place } from '../../model/story/place.interface';
 import { Asset, AssetType } from '../../model/story/asset.interface';
+import { attributes } from './character.object';
 
 const places: { [key: string]: Place } = {
 	Cologne: {
@@ -27,6 +28,10 @@ export const Assets: { [key: string]: Asset } = {
 	},
 	Coffee: {
 		name: 'Coffee',
+		type: AssetType.Normal,
+	},
+	['Job: Café']: {
+		name: 'Job: Café',
 		type: AssetType.Normal,
 	},
 };
@@ -62,6 +67,37 @@ export const StoryCafeObject: Story = {
 				text: 'Oh no',
 				failDissolvesAssets: [[Assets['Money'], 2]],
 				failResolveAssets: [],
+			},
+		},
+		{
+			title: 'Work: Wash dishes',
+			text: "It's a hard but honest work, just don't look at the water",
+			attribute: {
+				attributeToActivate: attributes.get('Strength')!,
+				attributeLevelFor100Percent: 1,
+			},
+			conditionsToShow: {
+				characterIsAtLocation: 'Café',
+				characterHasAssets: [],
+				characterHasNotAssets: [],
+			},
+			conditionsToUse: {
+				characterHasAssets: [],
+				characterHasNotAssets: [],
+			},
+			onWin: {
+				text: 'Your chef is satisfied. Dishes are shiny and clean.',
+				winDissolvesAssets: [],
+				winResolveAssets: [
+					[Assets['Money'], 3],
+					[Assets['Job: Café'], 1],
+				],
+				grantedAttributePoints: 2,
+			},
+			onFail: {
+				text: 'You broke too many plates. Salary goes down',
+				failDissolvesAssets: [],
+				failResolveAssets: [[Assets['Money'], 1]],
 			},
 		},
 	],

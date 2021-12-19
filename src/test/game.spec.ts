@@ -28,5 +28,16 @@ describe('game simulation', () => {
 		expect(coffee).toStrictEqual([{ name: 'Coffee', type: 'Normal' }, 1]);
 		const money = character.assets.get('Money');
 		expect(money).toStrictEqual([{ name: 'Money', type: 'Normal' }, 1]);
+
+		// Another coffee? This should throw due to the lack of money
+		const sd1 = () =>
+			GameController.submitDecision({
+				decision: decisions[0],
+				character: character,
+				stories: stories,
+			});
+		expect(sd1).toThrow('INVALID_DECISION');
+
+		// seems like you should work for your coffee
 	});
 });
