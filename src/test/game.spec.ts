@@ -45,7 +45,12 @@ describe('game simulation', () => {
 			character: character,
 			stories: stories,
 		});
-		console.log(result2);
 		expect(result2.characterWins).toBeTruthy();
+		const assets = Object.fromEntries(character.assets);
+		expect(assets).toStrictEqual({
+			Money: [{ name: 'Money', type: 'Normal' }, 4],
+			Coffee: [{ name: 'Coffee', type: 'Normal' }, 1],
+			'Job: Café': [{ name: 'Job: Café', type: 'Normal' }, 1],
+		});
 	});
 });
