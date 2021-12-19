@@ -23,7 +23,7 @@ export interface Decision {
 	// conditions to see this decision
 	conditionsToShow: {
 		// only show if player is at this place, if undefined, it will be shown everywhere
-		characterIsAtLocation?: Location;
+		characterIsAtLocation?: string;
 		// only show if player possesses at least these assets, if empty, it is always shown
 		characterHasAssets: IAssetInstance[];
 		// do not show if player has any of these assets

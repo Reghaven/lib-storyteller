@@ -16,7 +16,7 @@ export class SnippetFilter {
 
 		const remainingDecisionsByLocation = this.decisionsByLocation(
 			allDecisionsFromAllStories,
-			gameState.character.currentLocation
+			gameState.character.map.currentLocation
 		);
 
 		// here, filter by show is required
@@ -131,7 +131,7 @@ export class SnippetFilter {
 	 */
 	private static decisionsByLocation(
 		decisions: Decision[],
-		location: Location
+		location: string
 	): Decision[] {
 		return decisions.filter(
 			(decisions) =>
