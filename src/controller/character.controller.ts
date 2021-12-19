@@ -215,6 +215,6 @@ export class CharacterController {
 	 * @private
 	 */
 	private static calculatePropertyLevel(points: number) {
-		return Math.floor(Math.log(points) / Math.log(1.2));
+		return Math.floor(Math.log(points + 1) / Math.log(1.4));
 	}
 }
