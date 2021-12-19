@@ -3,6 +3,7 @@ import { Character } from '../model/character/character.interface';
 import { Location } from '../model/story/place.interface';
 import { GameState } from './game.controller';
 import { IAssetInstance } from '../model/asset-entity.type';
+import { CharacterController } from './character.controller';
 
 export class SnippetFilter {
 	public static allSnippetsCharacterCanSee(gameState: GameState) {
@@ -43,51 +44,15 @@ export class SnippetFilter {
 
 		// player needs all of required and none of forbidden assets
 		return (
-			this.characterHasAllOfAssetInstances(
+			CharacterController.characterHasAllOfAssetInstances(
 				assetsCharacterMustPossess,
 				character
 			) &&
-			!this.characterHasAnyOfAssetInstances(
+			!CharacterController.characterHasAnyOfAssetInstances(
 				assetsCharacterMayNotPossess,
 				character
 			)
 		);
-	}
-
-	private static characterHasAnyOfAssetInstances(
-		assetInstances: IAssetInstance[],
-		character: Character
-	): boolean {
-		for (const assetInstance of assetInstances) {
-			const [asset, assetCount] = assetInstance;
-
-			// if instance does not exist, continue
-			const characterAssetInstance = character.assets.get(asset.name);
-			if (characterAssetInstance === undefined) continue;
-
-			// if instance exists, count must be higher then required
-			const [, characterAssetCount] = characterAssetInstance;
-			if (characterAssetCount >= assetCount) return true;
-		}
-		return false;
-	}
-
-	private static characterHasAllOfAssetInstances(
-		assetInstances: IAssetInstance[],
-		character: Character
-	): boolean {
-		for (const assetInstance of assetInstances) {
-			const [asset, assetCount] = assetInstance;
-
-			// if instance does not exist, continue
-			const characterAssetInstance = character.assets.get(asset.name);
-			if (characterAssetInstance === undefined) return false;
-
-			// if instance exists, count must be higher then required
-			const [, characterAssetCount] = characterAssetInstance;
-			if (characterAssetCount < assetCount) return false;
-		}
-		return true;
 	}
 
 	/**
@@ -109,14 +74,14 @@ export class SnippetFilter {
 			// if player owns one of these, do not add the story
 
 			const characterOwnsOneOfThese =
-				this.characterHasAnyOfAssetInstances(
+				CharacterController.characterHasAnyOfAssetInstances(
 					assetsCharacterMayNotPossess,
 					character
 				);
 			if (characterOwnsOneOfThese) return false;
 
 			// if player has all of these, it is added, meaning if one is not found, it is not added
-			return this.characterHasAllOfAssetInstances(
+			return CharacterController.characterHasAllOfAssetInstances(
 				assetsCharacterMayPossess,
 				character
 			);
@@ -153,13 +118,13 @@ export class SnippetFilter {
 	): Decision[] {
 		return decisions.filter((decision) => {
 			const characterHasForbiddenAssets =
-				this.characterHasAnyOfAssetInstances(
+				CharacterController.characterHasAnyOfAssetInstances(
 					decision.conditionsToShow.characterHasNotAssets,
 					character
 				);
 			if (characterHasForbiddenAssets) return false;
 
-			return this.characterHasAllOfAssetInstances(
+			return CharacterController.characterHasAllOfAssetInstances(
 				decision.conditionsToShow.characterHasAssets,
 				character
 			);

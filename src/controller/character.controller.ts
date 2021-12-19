@@ -25,6 +25,52 @@ export class CharacterController {
 	}
 
 	/**
+	 * returns true if player has at least one of the provided instances
+	 * @param assetInstances
+	 * @param character
+	 */
+	public static characterHasAnyOfAssetInstances(
+		assetInstances: IAssetInstance[],
+		character: Character
+	): boolean {
+		for (const assetInstance of assetInstances) {
+			const [asset, assetCount] = assetInstance;
+
+			// if instance does not exist, continue
+			const characterAssetInstance = character.assets.get(asset.name);
+			if (characterAssetInstance === undefined) continue;
+
+			// if instance exists, count must be higher then required
+			const [, characterAssetCount] = characterAssetInstance;
+			if (characterAssetCount >= assetCount) return true;
+		}
+		return false;
+	}
+
+	/**
+	 * returns true if player has ALL instances requested
+	 * @param assetInstances
+	 * @param character
+	 */
+	public static characterHasAllOfAssetInstances(
+		assetInstances: IAssetInstance[],
+		character: Character
+	): boolean {
+		for (const assetInstance of assetInstances) {
+			const [asset, assetCount] = assetInstance;
+
+			// if instance does not exist, continue
+			const characterAssetInstance = character.assets.get(asset.name);
+			if (characterAssetInstance === undefined) return false;
+
+			// if instance exists, count must be higher then required
+			const [, characterAssetCount] = characterAssetInstance;
+			if (characterAssetCount < assetCount) return false;
+		}
+		return true;
+	}
+
+	/**
 	 * gives player assets
 	 * @param newAssetInstance
 	 * @param character
