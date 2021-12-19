@@ -1,4 +1,7 @@
-﻿import { Character } from '../../model/character/character.interface';
+﻿import {
+	Character,
+	CharacterMapEntry,
+} from '../../model/character/character.interface';
 import {
 	AssetType,
 	Attribute,
@@ -26,11 +29,8 @@ export const CharacterObject: Character = {
 	map: {
 		currentLocation: 'Café',
 		currentPlace: 'Cologne',
-		unlockedLocations: [
-			{
-				place: 'Cologne',
-				locations: ['Café'],
-			},
-		],
+		unlockedLocations: new Map<string, CharacterMapEntry[]>([
+			['Cologne', [{ name: 'Café' }]],
+		]),
 	},
 };

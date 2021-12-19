@@ -214,7 +214,7 @@ export class CharacterController {
 	 * @param points
 	 * @private
 	 */
-	public static calculatePropertyLevel(points: number) {
+	private static calculatePropertyLevel(points: number) {
 		return Math.floor(Math.log(points) / Math.log(1.2));
 	}
 }

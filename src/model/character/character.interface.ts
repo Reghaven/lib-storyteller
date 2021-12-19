@@ -17,14 +17,11 @@ export interface Character {
 		currentPlace: string;
 		currentLocation: string;
 		// store place name as key and a list of locations as values
-		unlockedLocations: Array<{
-			place: string;
-			locations: string[];
-		}>;
+		unlockedLocations: Map<string, CharacterMapEntry[]>;
 	};
 }
 
-interface CharacterMapEntry {
+export interface CharacterMapEntry {
 	name: string;
 }
 
