@@ -40,7 +40,7 @@ export class GameController {
 			gameDecision.decision.attribute?.attributeLevelFor100Percent;
 		// if no attribute is provided, the action should automatically succeed
 		if (!attributeName || !level) {
-			return {
+			const result: SubmitDecisionResult = {
 				characterGainsAssetInstances:
 					gameDecision.decision.onWin.winResolveAssets,
 				characterGoesToLocation:
@@ -54,6 +54,8 @@ export class GameController {
 				characterWins: true,
 				text: gameDecision.decision.onWin.text,
 			};
+			this.mutateCharacterWithDecision(result, gameDecision.character);
+			return result;
 		}
 		const hasPlayerWonDecision = CharacterController.attributeCheck(
 			attributeName,
@@ -63,7 +65,7 @@ export class GameController {
 
 		// on win: provide/remove assets, change location
 		if (hasPlayerWonDecision) {
-			return {
+			const result: SubmitDecisionResult = {
 				characterGainsAssetInstances:
 					gameDecision.decision.onWin.winResolveAssets,
 				characterGoesToLocation:
@@ -77,10 +79,12 @@ export class GameController {
 				characterWins: true,
 				text: gameDecision.decision.onWin.text,
 			};
+			this.mutateCharacterWithDecision(result, gameDecision.character);
+			return result;
 		}
 
 		// on loose: provide/remove assets, change location
-		return {
+		const result: SubmitDecisionResult = {
 			characterGainsAssetInstances:
 				gameDecision.decision.onFail.failResolveAssets,
 			characterGoesToLocation:
@@ -94,6 +98,8 @@ export class GameController {
 			characterWins: false,
 			text: gameDecision.decision.onFail.text,
 		};
+		this.mutateCharacterWithDecision(result, gameDecision.character);
+		return result;
 	}
 
 	/**
