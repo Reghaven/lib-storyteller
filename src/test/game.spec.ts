@@ -40,5 +40,12 @@ describe('game simulation', () => {
 		expect(sd1).toThrow('INVALID_DECISION');
 
 		// seems like you should work for your coffee
+		const result2 = GameController.submitDecision({
+			decision: decisions[1],
+			character: character,
+			stories: stories,
+		});
+		console.log(result2);
+		expect(result2.characterWins).toBeTruthy();
 	});
 });
