@@ -12,7 +12,9 @@ describe('game simulation', () => {
 			character,
 			stories,
 		});
+		expect(decisions.length).toBe(1);
+		expect(decisions[0].title).toBe('Drink some coffee');
 
-		console.log(decisions);
+		// They want coffee? They'll get coffee, let them drink that stuff
 	});
 });
