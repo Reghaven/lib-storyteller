@@ -4,6 +4,7 @@ import { SnippetFilter } from './snippet-filter.class';
 import { Location } from '../model/story/place.interface';
 import { IAssetInstance } from '../model/asset-entity.type';
 import { CharacterController } from './character.controller';
+import { SubmitDecisionResult } from './types/submit-decision-result.interface';
 
 export interface GameState {
 	character: Character;
@@ -45,7 +46,7 @@ export class GameController {
 				characterGainsAssetInstances:
 					gameDecision.decision.onWin.winResolveAssets,
 				characterGoesToLocation:
-					gameDecision.decision.onWin.leadsToLocation ||
+					gameDecision.decision.onWin.leadsToLocation?.name ||
 					gameDecision.character.map.currentLocation,
 				characterLoosesAssetInstances:
 					gameDecision.decision.onWin.winDissolvesAssets,
@@ -65,7 +66,7 @@ export class GameController {
 				characterGainsAssetInstances:
 					gameDecision.decision.onWin.winResolveAssets,
 				characterGoesToLocation:
-					gameDecision.decision.onWin.leadsToLocation ||
+					gameDecision.decision.onWin.leadsToLocation?.name ||
 					gameDecision.character.map.currentLocation,
 				characterLoosesAssetInstances:
 					gameDecision.decision.onWin.winDissolvesAssets,
@@ -79,7 +80,7 @@ export class GameController {
 			characterGainsAssetInstances:
 				gameDecision.decision.onFail.failResolveAssets,
 			characterGoesToLocation:
-				gameDecision.decision.onFail.leadsToLocation ||
+				gameDecision.decision.onFail.leadsToLocation?.name ||
 				gameDecision.character.map.currentLocation,
 			characterLoosesAssetInstances:
 				gameDecision.decision.onFail.failDissolvesAssets,
@@ -99,12 +100,4 @@ export class GameController {
 			gameDecision.character
 		);
 	}
-}
-
-export interface SubmitDecisionResult {
-	characterGainsAssetInstances: IAssetInstance[];
-	characterLoosesAssetInstances: IAssetInstance[];
-	characterGoesToLocation: Location;
-	characterWins: boolean;
-	text: string;
 }

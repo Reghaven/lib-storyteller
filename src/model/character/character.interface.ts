@@ -13,7 +13,7 @@ export interface Character {
 	// determines where the player is and where he can go
 	map: {
 		currentPlace: Place;
-		currentLocation: Location;
+		currentLocation: string;
 		// store place name as key and a list of locations as values
 		unlockedLocations: Map<string, CharacterMapEntry[]>;
 	};

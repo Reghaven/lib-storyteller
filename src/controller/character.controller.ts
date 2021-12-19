@@ -138,6 +138,9 @@ export class CharacterController {
 			updatedLocations
 		);
 	}
+
+	// TODO method to resolve a decision with DecisionResult
+	// TODO link characterController Methods to GameController
 }
 
 export function calculatePropertyLevel(points: number) {
