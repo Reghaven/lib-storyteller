@@ -16,5 +16,15 @@ describe('game simulation', () => {
 		expect(decisions[0].title).toBe('Drink some coffee');
 
 		// They want coffee? They'll get coffee, let them drink that stuff
+		const result = GameController.submitDecision({
+			decision: decisions[0],
+			character: character,
+			stories: stories,
+		});
+		expect(result.characterWins).toBeTruthy();
+		expect(result.text).toBe('Ah, refreshing as always.');
+		// the character should be updated accordingly
+		const money = character.assets.get('Money');
+		expect(money).toStrictEqual([{ name: 'Money', type: 'Normal' }, 1]);
 	});
 });

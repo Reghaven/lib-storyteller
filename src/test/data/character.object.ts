@@ -23,7 +23,7 @@ const attributes: Map<string, Attribute> = new Map([
 
 export const CharacterObject: Character = {
 	name: 'Johnathan Dough',
-	assets: new Map<string, IAssetInstance>([['Money', [Assets['Money'], 20]]]),
+	assets: new Map<string, IAssetInstance>([['Money', [Assets['Money'], 3]]]),
 	attributes: attributes,
 	equipment: {},
 	map: {
