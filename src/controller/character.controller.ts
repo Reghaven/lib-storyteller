@@ -18,7 +18,7 @@ export class CharacterController {
 		if (!fetchedInstance) return false;
 
 		const [, availableAmount] = fetchedInstance;
-		return requiredAmount >= availableAmount;
+		return requiredAmount <= availableAmount;
 	}
 
 	/**
