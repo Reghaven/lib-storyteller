@@ -141,9 +141,10 @@ export class CharacterController {
 		const characterAttribute = character.attributes.get(attribute);
 		if (!characterAttribute) return false;
 
-		const characterAttributeLevel = calculatePropertyLevel(
-			characterAttribute.pointsCollected
-		);
+		const characterAttributeLevel =
+			CharacterController.calculatePropertyLevel(
+				characterAttribute.pointsCollected
+			);
 
 		if (characterAttributeLevel >= levelForGrantedSuccess) return true;
 		if (characterAttributeLevel <= 0) return false;
@@ -207,8 +208,13 @@ export class CharacterController {
 		character.map.currentPlace = place;
 		character.map.currentLocation = location;
 	}
-}
 
-export function calculatePropertyLevel(points: number) {
-	return Math.floor(Math.log(points) / Math.log(1.2));
+	/**
+	 *
+	 * @param points
+	 * @private
+	 */
+	public static calculatePropertyLevel(points: number) {
+		return Math.floor(Math.log(points) / Math.log(1.2));
+	}
 }
