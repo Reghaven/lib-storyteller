@@ -51,6 +51,8 @@ export class GameController {
 					gameDecision.character.map.currentPlace,
 				characterLoosesAssetInstances:
 					gameDecision.decision.onWin.winDissolvesAssets,
+				winProvidesAttributePoints:
+					gameDecision.decision.onWin.grantedAttributePoints,
 				characterWins: true,
 				text: gameDecision.decision.onWin.text,
 			};
@@ -76,6 +78,8 @@ export class GameController {
 					gameDecision.character.map.currentPlace,
 				characterLoosesAssetInstances:
 					gameDecision.decision.onWin.winDissolvesAssets,
+				winProvidesAttributePoints:
+					gameDecision.decision.onWin.grantedAttributePoints,
 				characterWins: true,
 				text: gameDecision.decision.onWin.text,
 			};
@@ -104,17 +108,18 @@ export class GameController {
 
 	/**
 	 * changes properties in a character to match a decision
-	 * @param decisionResult
-	 * @param character
+	 * @param decisionResult all metadata required to mutate a character
+	 * @param character the character to apply the mutation to
 	 * @private
 	 */
 	private static mutateCharacterWithDecision(
 		decisionResult: SubmitDecisionResult,
 		character: Character
 	): void {
+		// TODO add attribute points
 		// add and remove asset instances
 		for (const assetInstances of decisionResult.characterGainsAssetInstances)
-			CharacterController.giveAssetInstanceToPlayer(
+			CharacterController.giveAssetInstanceToCharacter(
 				assetInstances,
 				character
 			);

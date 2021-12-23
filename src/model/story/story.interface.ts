@@ -52,7 +52,8 @@ export interface Decision {
 		text: string;
 		winResolveAssets: IAssetInstance[];
 		winDissolvesAssets: IAssetInstance[];
-		grantedAttributePoints?: number; // based on the attribute to activate
+		/**  based on the attribute to activate, zero if no attribute is required */
+		grantedAttributePoints: number;
 		leadsToLocation?: Location;
 		leadsToPlace?: Place;
 	};

@@ -8,4 +8,5 @@ export interface Location {
 	name: string;
 	isVisibleOnMap: boolean;
 	isUnlockedFromBeginning: boolean;
+	characterCanLeaveAnytime: boolean;
 }
