@@ -25,7 +25,7 @@ export class GameController {
 		gameDecision: GameDecision
 	): SubmitDecisionResult {
 		// validate
-		if (!this.canPlayerMakeDecision(gameDecision)) {
+		if (!this.canCharacterMakeDecision(gameDecision)) {
 			throw new Error('INVALID_DECISION');
 		}
 
@@ -125,11 +125,14 @@ export class GameController {
 	}
 
 	/**
-	 * checks if player has all requirements fulfilled to make a decision
+	 * checks if character has all requirements fulfilled to make a decision
 	 * @private
-	 * @param gameDecision
+	 * @param gameDecision a decision character wants to make
+	 * @returns true, if the character can make that decision
 	 */
-	private static canPlayerMakeDecision(gameDecision: GameDecision): boolean {
+	private static canCharacterMakeDecision(
+		gameDecision: GameDecision
+	): boolean {
 		return SnippetFilter.characterCanMakeDecision(
 			gameDecision.decision,
 			gameDecision.character
