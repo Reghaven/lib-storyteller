@@ -2,6 +2,7 @@
 import { Character } from '../model/character/character.interface';
 import { Place, Location } from '../model/story/place.interface';
 import { IAssetInstance } from '../model/story/asset.interface';
+import { attributes } from '../test/data/attributes.object';
 
 export class CharacterController {
 	/**
@@ -161,6 +162,24 @@ export class CharacterController {
 		// random number between 0 and 1, win if number is below the probability count
 		const num = Math.random();
 		return num <= probabilityForWin;
+	}
+
+	/**
+	 * adds points to a selected attribute
+	 * @param attribute the attribute to increase
+	 * @param points amount of points to add
+	 * @param character the character to be used
+	 */
+	public static addAttributePoints(
+		attribute: string,
+		points: number,
+		character: Character
+	): void {
+		const existingAttribute = character.attributes.get(attribute);
+		if (existingAttribute === undefined) return;
+
+		existingAttribute.pointsCollected += points;
+		character.attributes.set(attribute, existingAttribute);
 	}
 
 	/**
