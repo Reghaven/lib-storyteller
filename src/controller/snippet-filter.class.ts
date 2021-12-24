@@ -1,7 +1,7 @@
-﻿import { Decision, Story } from '../model/story/story.interface';
-import { Character } from '../model/character/character.interface';
+﻿import { Decision, Story } from '../model/story.interface';
+import { Character } from '../model/character.interface';
 import { CharacterController } from './character.controller';
-import {GameState} from "./types/game-state.interface";
+import { GameState } from './types/game-state.interface';
 
 export class SnippetFilter {
 	public static allSnippetsCharacterCanSee(gameState: GameState) {

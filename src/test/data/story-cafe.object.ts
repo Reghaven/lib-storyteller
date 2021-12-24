@@ -1,7 +1,6 @@
-﻿import { Story } from '../../model/story/story.interface';
-import { Place } from '../../model/story/place.interface';
-import { Asset, AssetType } from '../../model/story/asset.interface';
-import { attributes } from './attributes.object';
+﻿import { Story } from '../../model/story.interface';
+import { Asset, AssetType } from '../../model/asset.interface';
+import { Place } from '../../model/place.interface';
 
 const places: { [key: string]: Place } = {
 	Cologne: {

@@ -1,8 +1,5 @@
-﻿import {
-	Character,
-	CharacterMapEntry,
-} from '../../model/character/character.interface';
-import { Attribute, IAssetInstance } from '../../model/story/asset.interface';
+﻿import { Character, CharacterMapEntry } from '../../model/character.interface';
+import { Attribute, IAssetInstance } from '../../model/asset.interface';
 import { Assets } from './story-cafe.object';
 import { attributes } from './attributes.object';
 

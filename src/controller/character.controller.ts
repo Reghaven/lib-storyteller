@@ -1,11 +1,11 @@
 ﻿/** provides methods to interact with a character */
-import { Character } from '../model/character/character.interface';
-import { Location, Place } from '../model/story/place.interface';
+import { Character } from '../model/character.interface';
+import { Location, Place } from '../model/place.interface';
 import {
 	AssetType,
 	IAssetInstance,
 	UsableAsset,
-} from '../model/story/asset.interface';
+} from '../model/asset.interface';
 
 export class CharacterController {
 	/**

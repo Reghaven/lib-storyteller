@@ -1,5 +1,5 @@
-﻿import { Character } from '../model/character/character.interface';
-import { Decision } from '../model/story/story.interface';
+﻿import { Character } from '../model/character.interface';
+import { Decision } from '../model/story.interface';
 import { SnippetFilter } from './snippet-filter.class';
 import { CharacterController } from './character.controller';
 import { SubmitDecisionResult } from './types/submit-decision-result.interface';

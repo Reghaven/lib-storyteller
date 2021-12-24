@@ -1,8 +1,4 @@
-﻿import {
-	Attribute,
-	EquippableAsset,
-	IAssetInstance,
-} from '../story/asset.interface';
+﻿import { Attribute, EquippableAsset, IAssetInstance } from './asset.interface';
 
 export interface Character {
 	name: string;

@@ -1,4 +1,4 @@
-﻿import { IAssetInstance } from '../../model/story/asset.interface';
+﻿import { IAssetInstance } from '../../model/asset.interface';
 
 /** metadata on how a decision ended, used to determine how a character should be updated */
 export interface SubmitDecisionResult {
