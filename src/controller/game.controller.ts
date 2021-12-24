@@ -1,20 +1,16 @@
 ﻿import { Character } from '../model/character/character.interface';
-import { Decision, Story } from '../model/story/story.interface';
+import { Decision } from '../model/story/story.interface';
 import { SnippetFilter } from './snippet-filter.class';
 import { CharacterController } from './character.controller';
 import { SubmitDecisionResult } from './types/submit-decision-result.interface';
-
-export interface GameState {
-	character: Character;
-	stories: Story[];
-}
-
-export type GameDecision = GameState & { decision: Decision };
+import { GameDecision, GameState } from './types/game-state.interface';
 
 /** provides methods to interact with stories and submit decisions */
 export class GameController {
 	/**
 	 * should return all decisions a player can make based on his location and abilities
+	 * @param gameState character and all stories
+	 * @returns a list of all decisions a player can make
 	 */
 	public static retrievePossibleDecisions(gameState: GameState): Decision[] {
 		return SnippetFilter.allSnippetsCharacterCanSee(gameState);
@@ -38,57 +34,24 @@ export class GameController {
 			gameDecision.decision.attribute?.attributeToActivate.name;
 		const level =
 			gameDecision.decision.attribute?.attributeLevelFor100Percent;
-		// if no attribute is provided, the action should automatically succeed
-		if (!attributeName || !level) {
-			const result: SubmitDecisionResult = {
-				characterGainsAssetInstances:
-					gameDecision.decision.onWin.winResolveAssets,
-				characterGoesToLocation:
-					gameDecision.decision.onWin.leadsToLocation?.name ||
-					gameDecision.character.map.currentLocation,
-				characterGoesToPlace:
-					gameDecision.decision.onWin.leadsToPlace?.name ||
-					gameDecision.character.map.currentPlace,
-				characterLoosesAssetInstances:
-					gameDecision.decision.onWin.winDissolvesAssets,
-				winProvidesAttributePoints:
-					gameDecision.decision.onWin.grantedAttributePoints,
-				characterWins: true,
-				text: gameDecision.decision.onWin.text,
-			};
-			this.mutateCharacterWithDecision(result, gameDecision.character);
-			return result;
-		}
-		const hasPlayerWonDecision = CharacterController.attributeCheck(
-			attributeName,
-			level,
-			gameDecision.character
-		);
 
-		// on win: provide/remove assets, change location
-		if (hasPlayerWonDecision) {
-			const result: SubmitDecisionResult = {
-				characterGainsAssetInstances:
-					gameDecision.decision.onWin.winResolveAssets,
-				characterGoesToLocation:
-					gameDecision.decision.onWin.leadsToLocation?.name ||
-					gameDecision.character.map.currentLocation,
-				characterGoesToPlace:
-					gameDecision.decision.onWin.leadsToPlace?.name ||
-					gameDecision.character.map.currentPlace,
-				characterLoosesAssetInstances:
-					gameDecision.decision.onWin.winDissolvesAssets,
-				winProvidesAttributePoints:
-					gameDecision.decision.onWin.grantedAttributePoints,
-				characterWins: true,
-				text: gameDecision.decision.onWin.text,
-			};
-			this.mutateCharacterWithDecision(result, gameDecision.character);
-			return result;
-		}
-
-		// on loose: provide/remove assets, change location
-		const result: SubmitDecisionResult = {
+		const onWinResult: SubmitDecisionResult = {
+			characterGainsAssetInstances:
+				gameDecision.decision.onWin.winResolveAssets,
+			characterGoesToLocation:
+				gameDecision.decision.onWin.leadsToLocation?.name ||
+				gameDecision.character.map.currentLocation,
+			characterGoesToPlace:
+				gameDecision.decision.onWin.leadsToPlace?.name ||
+				gameDecision.character.map.currentPlace,
+			characterLoosesAssetInstances:
+				gameDecision.decision.onWin.winDissolvesAssets,
+			winProvidesAttributePoints:
+				gameDecision.decision.onWin.grantedAttributePoints,
+			characterWins: true,
+			text: gameDecision.decision.onWin.text,
+		};
+		const onLooseResult: SubmitDecisionResult = {
 			characterGainsAssetInstances:
 				gameDecision.decision.onFail.failResolveAssets,
 			characterGoesToLocation:
@@ -102,8 +65,35 @@ export class GameController {
 			characterWins: false,
 			text: gameDecision.decision.onFail.text,
 		};
-		this.mutateCharacterWithDecision(result, gameDecision.character);
-		return result;
+
+		// if no attribute is provided, the action should automatically succeed
+		if (!attributeName || !level) {
+			this.mutateCharacterWithDecision(
+				onWinResult,
+				gameDecision.character
+			);
+			return onWinResult;
+		}
+
+		// attribute check
+		const hasPlayerWonDecision = CharacterController.attributeCheck(
+			attributeName,
+			level,
+			gameDecision.character
+		);
+
+		// on win: provide/remove assets, change location
+		if (hasPlayerWonDecision) {
+			this.mutateCharacterWithDecision(
+				onWinResult,
+				gameDecision.character
+			);
+			return onWinResult;
+		}
+
+		// on loose: provide/remove assets, change location
+		this.mutateCharacterWithDecision(onLooseResult, gameDecision.character);
+		return onLooseResult;
 	}
 
 	/**
