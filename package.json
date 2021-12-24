@@ -1,8 +1,8 @@
 {
 	"name": "lib-storyteller",
 	"version": "1.0.0-alpha.1",
-	"description": "library ",
-	"main": "index.js",
+	"description": "library to create narration based rpgs",
+	"main": "dist/main.js",
 	"scripts": {
 		"test": "jest",
 		"build": "tsc",
