@@ -1,8 +1,11 @@
 ﻿/** provides methods to interact with a character */
 import { Character } from '../model/character/character.interface';
-import { Place, Location } from '../model/story/place.interface';
-import { IAssetInstance } from '../model/story/asset.interface';
-import { attributes } from '../test/data/attributes.object';
+import { Location, Place } from '../model/story/place.interface';
+import {
+	AssetType,
+	IAssetInstance,
+	UsableAsset,
+} from '../model/story/asset.interface';
 
 export class CharacterController {
 	/**
@@ -180,6 +183,33 @@ export class CharacterController {
 
 		existingAttribute.pointsCollected += points;
 		character.attributes.set(attribute, existingAttribute);
+	}
+
+	/**
+	 * using an item means removing it and activating it's effects
+	 * @param itemToUse an item string to use
+	 * @param character the character to apply the changes to
+	 */
+	public static useItem(itemToUse: string, character: Character): void {
+		// retrieve item
+		const itemInstance = character.assets.get(itemToUse);
+		if (itemInstance === undefined) return;
+		const [item, count] = itemInstance;
+		// needs to be usable and available
+		if (item.type !== AssetType.Usable || count <= 0) return;
+
+		// apply effect
+		CharacterController.giveAssetInstanceToCharacter(
+			(item as UsableAsset).givesCharacterAssets,
+			character
+		);
+		CharacterController.removeAssetFromPlayer(
+			(item as UsableAsset).removesCharacterAssets,
+			character
+		);
+
+		// remove one instance of said item
+		CharacterController.removeAssetFromPlayer([item, 1], character);
 	}
 
 	/**
