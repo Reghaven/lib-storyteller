@@ -11,11 +11,13 @@ const places: { [key: string]: Place } = {
 				name: 'Café',
 				isVisibleOnMap: true,
 				isUnlockedFromBeginning: true,
+				characterCanLeaveAnytime: true,
 			},
 			{
 				name: 'Backalley',
 				isVisibleOnMap: false,
 				isUnlockedFromBeginning: false,
+				characterCanLeaveAnytime: true,
 			},
 		],
 	},
@@ -62,6 +64,7 @@ export const StoryCafeObject: Story = {
 				text: 'Ah, refreshing as always.',
 				winDissolvesAssets: [[Assets['Money'], 2]],
 				winResolveAssets: [[Assets['Coffee'], 1]],
+				grantedAttributePoints: 0,
 			},
 			onFail: {
 				text: 'Oh no',
@@ -73,7 +76,7 @@ export const StoryCafeObject: Story = {
 			title: 'Work: Wash dishes',
 			text: "It's a hard but honest work, just don't look at the water",
 			attribute: {
-				attributeToActivate: attributes['Strength'],
+				attributeToActivate: 'Strength',
 				attributeLevelFor100Percent: 1,
 			},
 			conditionsToShow: {

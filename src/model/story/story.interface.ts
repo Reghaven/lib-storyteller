@@ -43,7 +43,7 @@ export interface Decision {
 
 	// if undefined, it will always be shown
 	attribute?: {
-		attributeToActivate: Attribute;
+		attributeToActivate: string;
 		attributeLevelFor100Percent: number;
 	};
 

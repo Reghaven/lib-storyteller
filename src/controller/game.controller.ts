@@ -31,7 +31,7 @@ export class GameController {
 
 		// stat roll for said decision
 		const attributeName =
-			gameDecision.decision.attribute?.attributeToActivate.name;
+			gameDecision.decision.attribute?.attributeToActivate;
 		const level =
 			gameDecision.decision.attribute?.attributeLevelFor100Percent;
 
@@ -48,6 +48,8 @@ export class GameController {
 				gameDecision.decision.onWin.winDissolvesAssets,
 			winProvidesAttributePoints:
 				gameDecision.decision.onWin.grantedAttributePoints,
+			attributeToIncrease:
+				gameDecision.decision.attribute?.attributeToActivate,
 			characterWins: true,
 			text: gameDecision.decision.onWin.text,
 		};
