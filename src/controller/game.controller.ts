@@ -106,7 +106,18 @@ export class GameController {
 		decisionResult: SubmitDecisionResult,
 		character: Character
 	): void {
-		// TODO add attribute points
+		// add attribute points
+		if (
+			decisionResult.winProvidesAttributePoints &&
+			decisionResult.attributeToIncrease
+		) {
+			CharacterController.addAttributePoints(
+				decisionResult.attributeToIncrease,
+				decisionResult.winProvidesAttributePoints,
+				character
+			);
+		}
+
 		// add and remove asset instances
 		for (const assetInstances of decisionResult.characterGainsAssetInstances)
 			CharacterController.giveAssetInstanceToCharacter(

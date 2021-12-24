@@ -12,6 +12,8 @@ export interface SubmitDecisionResult {
 	characterGoesToPlace: string;
 	/** attribute points granted for an win, not available on fail */
 	winProvidesAttributePoints?: number;
+	/** attribute to increase */
+	attributeToIncrease?: string;
 	/** determines if a character won or lost a stat check */
 	characterWins: boolean;
 	/** the text that should be shown once the stat check is resolved */
