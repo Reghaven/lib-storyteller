@@ -1,5 +1,6 @@
 ﻿import { Attribute, IAssetInstance } from './asset.interface';
 import { Location, Place } from './place.interface';
+import {SubmitDecisionResult} from "../controller/types/submit-decision-result.interface";
 
 export interface Story {
 	title: string;
@@ -48,17 +49,7 @@ export interface Decision {
 	};
 	
 	// everything that happens when you win
-	onWin: AttributeCheckResult;
+	onWin: SubmitDecisionResult;
 	// everything that happens when you loose
-	onFail: AttributeCheckResult;
-}
-
-/** after the stat check, following results apply */
-export interface AttributeCheckResult {
-	text: string;
-	resolvesAssets: IAssetInstance[];
-	dissolvesAssets: IAssetInstance[];
-	leadsToLocation?: string;
-	leadsToPlace?: string;
-	grantedAttributePoints: number;
+	onFail: SubmitDecisionResult;
 }

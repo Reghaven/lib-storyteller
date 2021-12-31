@@ -37,17 +37,17 @@ export class GameController {
 
 		const onWinResult: SubmitDecisionResult = {
 			characterGainsAssetInstances:
-				gameDecision.decision.onWin.resolvesAssets,
+				gameDecision.decision.onWin.characterGainsAssetInstances,
 			characterGoesToLocation:
-				gameDecision.decision.onWin.leadsToLocation ||
+				gameDecision.decision.onWin.characterGoesToLocation ||
 				gameDecision.character.map.currentLocation,
 			characterGoesToPlace:
-				gameDecision.decision.onWin.leadsToPlace ||
+				gameDecision.decision.onWin.characterGoesToPlace ||
 				gameDecision.character.map.currentPlace,
 			characterLoosesAssetInstances:
-				gameDecision.decision.onWin.dissolvesAssets,
-			winProvidesAttributePoints:
-				gameDecision.decision.onWin.grantedAttributePoints,
+				gameDecision.decision.onWin.characterLoosesAssetInstances,
+			providesAttributePoints:
+				gameDecision.decision.onWin.providesAttributePoints,
 			attributeToIncrease:
 				gameDecision.decision.attribute?.attributeToActivate,
 			characterWins: true,
@@ -55,17 +55,18 @@ export class GameController {
 		};
 		const onLooseResult: SubmitDecisionResult = {
 			characterGainsAssetInstances:
-				gameDecision.decision.onFail.resolvesAssets,
+				gameDecision.decision.onFail.characterGainsAssetInstances,
 			characterGoesToLocation:
-				gameDecision.decision.onFail.leadsToLocation ||
+				gameDecision.decision.onFail.characterGoesToLocation ||
 				gameDecision.character.map.currentLocation,
 			characterGoesToPlace:
-				gameDecision.decision.onFail.leadsToPlace ||
+				gameDecision.decision.onFail.characterGoesToPlace ||
 				gameDecision.character.map.currentPlace,
 			characterLoosesAssetInstances:
-				gameDecision.decision.onFail.dissolvesAssets,
+				gameDecision.decision.onFail.characterLoosesAssetInstances,
 			characterWins: false,
 			text: gameDecision.decision.onFail.text,
+			providesAttributePoints: gameDecision.decision.onFail.providesAttributePoints,
 		};
 
 		// if no attribute is provided, the action should automatically succeed
@@ -110,12 +111,12 @@ export class GameController {
 	): void {
 		// add attribute points
 		if (
-			decisionResult.winProvidesAttributePoints &&
+			decisionResult.providesAttributePoints &&
 			decisionResult.attributeToIncrease
 		) {
 			CharacterController.addAttributePoints(
 				decisionResult.attributeToIncrease,
-				decisionResult.winProvidesAttributePoints,
+				decisionResult.providesAttributePoints,
 				character
 			);
 		}
