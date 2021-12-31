@@ -132,8 +132,8 @@ export class GameController {
 
 		// change location
 		CharacterController.moveToLocation(
-			decisionResult.characterGoesToPlace,
-			decisionResult.characterGoesToLocation,
+			decisionResult.characterGoesToPlace || character.map.currentPlace,
+			decisionResult.characterGoesToLocation || character.map.currentLocation,
 			character
 		);
 	}
