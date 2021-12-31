@@ -37,15 +37,15 @@ export class GameController {
 
 		const onWinResult: SubmitDecisionResult = {
 			characterGainsAssetInstances:
-				gameDecision.decision.onWin.winResolveAssets,
+				gameDecision.decision.onWin.resolvesAssets,
 			characterGoesToLocation:
-				gameDecision.decision.onWin.leadsToLocation?.name ||
+				gameDecision.decision.onWin.leadsToLocation ||
 				gameDecision.character.map.currentLocation,
 			characterGoesToPlace:
-				gameDecision.decision.onWin.leadsToPlace?.name ||
+				gameDecision.decision.onWin.leadsToPlace ||
 				gameDecision.character.map.currentPlace,
 			characterLoosesAssetInstances:
-				gameDecision.decision.onWin.winDissolvesAssets,
+				gameDecision.decision.onWin.dissolvesAssets,
 			winProvidesAttributePoints:
 				gameDecision.decision.onWin.grantedAttributePoints,
 			attributeToIncrease:
@@ -55,15 +55,15 @@ export class GameController {
 		};
 		const onLooseResult: SubmitDecisionResult = {
 			characterGainsAssetInstances:
-				gameDecision.decision.onFail.failResolveAssets,
+				gameDecision.decision.onFail.resolvesAssets,
 			characterGoesToLocation:
-				gameDecision.decision.onFail.leadsToLocation?.name ||
+				gameDecision.decision.onFail.leadsToLocation ||
 				gameDecision.character.map.currentLocation,
 			characterGoesToPlace:
-				gameDecision.decision.onFail.leadsToPlace?.name ||
+				gameDecision.decision.onFail.leadsToPlace ||
 				gameDecision.character.map.currentPlace,
 			characterLoosesAssetInstances:
-				gameDecision.decision.onFail.failDissolvesAssets,
+				gameDecision.decision.onFail.dissolvesAssets,
 			characterWins: false,
 			text: gameDecision.decision.onFail.text,
 		};

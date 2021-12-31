@@ -61,14 +61,15 @@ export const StoryCafeObject: Story = {
 			},
 			onWin: {
 				text: 'Ah, refreshing as always.',
-				winDissolvesAssets: [[Assets['Money'], 2]],
-				winResolveAssets: [[Assets['Coffee'], 1]],
+				dissolvesAssets: [[Assets['Money'], 2]],
+				resolvesAssets: [[Assets['Coffee'], 1]],
 				grantedAttributePoints: 0,
 			},
 			onFail: {
 				text: 'Oh no',
-				failDissolvesAssets: [[Assets['Money'], 2]],
-				failResolveAssets: [],
+				dissolvesAssets: [[Assets['Money'], 2]],
+				resolvesAssets: [],
+				grantedAttributePoints: 0,
 			},
 		},
 		{
@@ -89,8 +90,8 @@ export const StoryCafeObject: Story = {
 			},
 			onWin: {
 				text: 'Your chef is satisfied. Dishes are shiny and clean.',
-				winDissolvesAssets: [],
-				winResolveAssets: [
+				dissolvesAssets: [],
+				resolvesAssets: [
 					[Assets['Money'], 3],
 					[Assets['Worked at Café'], 1],
 				],
@@ -98,8 +99,9 @@ export const StoryCafeObject: Story = {
 			},
 			onFail: {
 				text: 'You broke too many plates. Salary goes down',
-				failDissolvesAssets: [],
-				failResolveAssets: [[Assets['Money'], 1]],
+				dissolvesAssets: [],
+				resolvesAssets: [[Assets['Money'], 1]],
+				grantedAttributePoints: 0,
 			},
 		},
 	],
