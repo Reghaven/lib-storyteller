@@ -46,24 +46,19 @@ export interface Decision {
 		attributeToActivate: string;
 		attributeLevelFor100Percent: number;
 	};
-
+	
 	// everything that happens when you win
-	onWin: {
-		text: string;
-		winResolveAssets: IAssetInstance[];
-		winDissolvesAssets: IAssetInstance[];
-		/**  based on the attribute to activate, zero if no attribute is required */
-		grantedAttributePoints: number;
-		leadsToLocation?: Location;
-		leadsToPlace?: Place;
-	};
-
+	onWin: AttributeCheckResult;
 	// everything that happens when you loose
-	onFail: {
-		text: string;
-		failResolveAssets: IAssetInstance[];
-		failDissolvesAssets: IAssetInstance[];
-		leadsToLocation?: Location;
-		leadsToPlace?: Place;
-	};
+	onFail: AttributeCheckResult;
+}
+
+/** after the stat check, following results apply */
+export interface AttributeCheckResult {
+	text: string;
+	resolvesAssets: IAssetInstance[];
+	dissolvesAssets: IAssetInstance[];
+	leadsToLocation?: string;
+	leadsToPlace?: string;
+	grantedAttributePoints: number;
 }
