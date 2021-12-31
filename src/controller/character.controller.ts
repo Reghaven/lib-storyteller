@@ -151,7 +151,7 @@ export class CharacterController {
 
 		// calculate level from character points
 		const characterAttributeLevel =
-			CharacterController.calculatePropertyLevel(
+			CharacterController.calculateAttributeLevel(
 				characterAttribute.pointsCollected
 			);
 
@@ -274,7 +274,7 @@ export class CharacterController {
 	 * @private
 	 * @returns the level of said attribute used for stat checks
 	 */
-	private static calculatePropertyLevel(points: number): number {
+	public static calculateAttributeLevel(points: number): number {
 		return Math.floor(Math.log(points + 1) / Math.log(1.4));
 	}
 }
