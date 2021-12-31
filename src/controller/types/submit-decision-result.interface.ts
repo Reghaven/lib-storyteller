@@ -7,11 +7,11 @@ export interface SubmitDecisionResult {
 	/** assets a character looses after an outcome */
 	characterLoosesAssetInstances: IAssetInstance[];
 	/** a location that the character should move to */
-	characterGoesToLocation: string;
+	characterGoesToLocation?: string;
 	/** the place of the location a character goes to */
-	characterGoesToPlace: string;
+	characterGoesToPlace?: string;
 	/** attribute points granted for an win, not available on fail */
-	winProvidesAttributePoints?: number;
+	providesAttributePoints: number;
 	/** attribute to increase */
 	attributeToIncrease?: string;
 	/** determines if a character won or lost a stat check */
