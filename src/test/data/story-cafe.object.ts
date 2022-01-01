@@ -1,6 +1,5 @@
 ﻿import { Story } from '../../model/story.interface';
 import { Asset, AssetType } from '../../model/asset.interface';
-import { Place } from '../../model/place.interface';
 
 export const Assets: { [key: string]: Asset } = {
 	Money: {
