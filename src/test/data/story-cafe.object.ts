@@ -1,26 +1,5 @@
 ﻿import { Story } from '../../model/story.interface';
 import { Asset, AssetType } from '../../model/asset.interface';
-import { Place } from '../../model/place.interface';
-
-const places: { [key: string]: Place } = {
-	Cologne: {
-		name: 'Cologne',
-		locations: [
-			{
-				name: 'Café',
-				isVisibleOnMap: true,
-				isUnlockedFromBeginning: true,
-				characterCanLeaveAnytime: true,
-			},
-			{
-				name: 'Backalley',
-				isVisibleOnMap: false,
-				isUnlockedFromBeginning: false,
-				characterCanLeaveAnytime: true,
-			},
-		],
-	},
-};
 
 export const Assets: { [key: string]: Asset } = {
 	Money: {
@@ -41,7 +20,7 @@ export const StoryCafeObject: Story = {
 	title: 'Cologne Café',
 	text: 'Best stories are written in an café, you know?',
 	conditionsToShow: {
-		characterIsAtPlace: places['Cologne'],
+		characterIsAtPlace: 'Cologne',
 		characterHasAssets: [],
 		characterHasNotAssets: [],
 	},
