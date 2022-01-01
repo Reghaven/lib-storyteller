@@ -66,7 +66,8 @@ export class GameController {
 				gameDecision.decision.onFail.characterLoosesAssetInstances,
 			characterWins: false,
 			text: gameDecision.decision.onFail.text,
-			providesAttributePoints: gameDecision.decision.onFail.providesAttributePoints,
+			providesAttributePoints:
+				gameDecision.decision.onFail.providesAttributePoints,
 		};
 
 		// if no attribute is provided, the action should automatically succeed
@@ -133,7 +134,8 @@ export class GameController {
 		// change location
 		CharacterController.moveToLocation(
 			decisionResult.characterGoesToPlace || character.map.currentPlace,
-			decisionResult.characterGoesToLocation || character.map.currentLocation,
+			decisionResult.characterGoesToLocation ||
+				character.map.currentLocation,
 			character
 		);
 	}

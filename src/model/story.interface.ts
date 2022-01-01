@@ -1,6 +1,5 @@
-﻿import { Attribute, IAssetInstance } from './asset.interface';
-import { Location, Place } from './place.interface';
-import {SubmitDecisionResult} from "../controller/types/submit-decision-result.interface";
+﻿import { IAssetInstance } from './asset.interface';
+import { SubmitDecisionResult } from '../controller/types/submit-decision-result.interface';
 
 export interface Story {
 	title: string;
@@ -10,7 +9,7 @@ export interface Story {
 
 	conditionsToShow: {
 		// story is only displayed in this place, if undefined, it is showed everywhere
-		characterIsAtPlace?: Place;
+		characterIsAtPlace?: string;
 		// only show if player possesses at least these assets, if empty, it is always shown
 		characterHasAssets: IAssetInstance[];
 		// do not show if player has any of these assets
@@ -47,7 +46,7 @@ export interface Decision {
 		attributeToActivate: string;
 		attributeLevelFor100Percent: number;
 	};
-	
+
 	// everything that happens when you win
 	onWin: SubmitDecisionResult;
 	// everything that happens when you loose
