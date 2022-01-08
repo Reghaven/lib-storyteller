@@ -1,7 +1,8 @@
-﻿import { Character } from '../../model/character.interface';
-import { Decision, Story } from '../../model/story.interface';
+﻿/** sums up character and all stories and therefore provides all relevant data in a game */
+import { Character } from '../../model/character/character.interface';
+import { Story } from '../../model/story/story.entity';
+import { Decision } from '../../model/story/decision.entity';
 
-/** sums up character and all stories and therefore provides all relevant data in a game */
 export interface GameState {
 	character: Character;
 	stories: Story[];
