@@ -1,9 +1,9 @@
-﻿import { Character } from '../model/character.interface';
-import { Decision } from '../model/story.interface';
-import { SnippetFilter } from './snippet-filter.class';
+﻿import { SnippetFilter } from './snippet-filter.class';
 import { CharacterController } from './character.controller';
 import { SubmitDecisionResult } from './types/submit-decision-result.interface';
 import { GameDecision, GameState } from './types/game-state.interface';
+import { Decision } from '../model/story/decision.entity';
+import { Character } from '../model/character/character.interface';
 
 /** provides methods to interact with stories and submit decisions */
 export class GameController {
