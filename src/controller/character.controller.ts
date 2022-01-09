@@ -210,7 +210,7 @@ export class CharacterController {
 
 	/**
 	 * using an item means removing it and activating it's effects
-	 * @param itemToUse an item string to use
+	 * @param itemAssetUuid
 	 * @param character the character to apply the changes to
 	 */
 	public static useItem(itemAssetUuid: string, character: Character): void {
