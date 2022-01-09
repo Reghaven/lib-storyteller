@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## 1.0.0-alpha.6
+### Changed
+- Better entity management
+- Attributes are no longer assets
+
 ## 1.0.0-alpha.5
 ### Changed
 - Place in character is now a string and not an object reference
