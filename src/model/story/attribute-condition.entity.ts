@@ -1,7 +1,6 @@
-﻿import { Entity } from '../entity.interface';
-import { Attribute } from '../attribute/attribute.entity';
+﻿import { Attribute } from '../attribute/attribute.entity';
 
-export interface AttributeCondition extends Entity {
+export interface AttributeCondition {
 	attributeToActivate: Attribute;
 	attributeLevelFor100Percent: number;
 }

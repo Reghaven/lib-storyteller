@@ -1,7 +1,6 @@
-﻿import { Entity } from '../entity.interface';
-import { Location } from '../place/location.entity';
+﻿import { Location } from '../place/location.entity';
 
-export interface CharacterMap extends Entity {
+export interface CharacterMap {
 	currentLocation: Location;
 	unlockedLocations: Location[];
 }

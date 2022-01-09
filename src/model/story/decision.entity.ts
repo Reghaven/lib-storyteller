@@ -5,8 +5,6 @@ import { AttributeCondition } from './attribute-condition.entity';
 
 export interface Decision extends Entity {
 	//
-	title: string;
-	//
 	text: string;
 	// conditions to see this decision
 	conditionsToShow: AssetCondition;
