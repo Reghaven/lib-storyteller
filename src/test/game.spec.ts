@@ -27,11 +27,25 @@ describe('game simulation', () => {
 		const coffee = character.assetInstances.find(
 			(i) => i.asset.uuid === 'abcd213b-2691-45ae-8d51-9a1d0f0ab805'
 		);
-		expect(coffee).toStrictEqual([{ name: 'Coffee', type: 'Normal' }, 1]);
+		expect(coffee).toStrictEqual({
+			asset: {
+				name: 'Coffee',
+				type: 'Normal',
+				uuid: 'abcd213b-2691-45ae-8d51-9a1d0f0ab805',
+			},
+			count: 1,
+		});
 		const money = character.assetInstances.find(
 			(i) => i.asset.uuid === '2b1793f7-6349-4bfc-b12e-ad25eba5a485'
 		);
-		expect(money).toStrictEqual([{ name: 'Money', type: 'Normal' }, 1]);
+		expect(money).toStrictEqual({
+			asset: {
+				name: 'Money',
+				type: 'Normal',
+				uuid: '2b1793f7-6349-4bfc-b12e-ad25eba5a485',
+			},
+			count: 3,
+		});
 
 		// Another coffee? This should throw due to the lack of money
 		const sd1 = () =>
