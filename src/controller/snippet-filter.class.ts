@@ -1,7 +1,9 @@
-﻿import { Decision, Story } from '../model/story.interface';
-import { Character } from '../model/character.interface';
-import { CharacterController } from './character.controller';
+﻿import { CharacterController } from './character.controller';
 import { GameState } from './types/game-state.interface';
+import { Location } from '../model/place/location.entity';
+import { Decision } from '../model/story/decision.entity';
+import { Character } from '../model/character/character.interface';
+import { Story } from '../model/story/story.entity';
 
 export class SnippetFilter {
 	public static allSnippetsCharacterCanSee(gameState: GameState) {
@@ -63,11 +65,9 @@ export class SnippetFilter {
 		stories: Story[],
 		character: Character
 	): Story[] {
-		return stories.filter((story) => {
-			const assetsCharacterMayPossess =
-				story.conditionsToShow.characterHasAssets;
-			const assetsCharacterMayNotPossess =
-				story.conditionsToShow.characterHasNotAssets;
+		return stories.filter((story: Story) => {
+			const assetsCharacterMayPossess = story.characterHasAssets;
+			const assetsCharacterMayNotPossess = story.characterHasNotAssets;
 
 			// if player owns one of these, do not add the story
 
@@ -94,7 +94,7 @@ export class SnippetFilter {
 	 */
 	private static decisionsByLocation(
 		decisions: Decision[],
-		location: string
+		location: Location
 	): Decision[] {
 		return decisions.filter(
 			(decisions) =>
