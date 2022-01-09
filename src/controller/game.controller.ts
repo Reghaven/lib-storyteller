@@ -1,9 +1,9 @@
-﻿import { Character } from '../model/character.interface';
-import { Decision } from '../model/story.interface';
-import { SnippetFilter } from './snippet-filter.class';
+﻿import { SnippetFilter } from './snippet-filter.class';
 import { CharacterController } from './character.controller';
 import { SubmitDecisionResult } from './types/submit-decision-result.interface';
 import { GameDecision, GameState } from './types/game-state.interface';
+import { Decision } from '../model/story/decision.entity';
+import { Character } from '../model/character/character.interface';
 
 /** provides methods to interact with stories and submit decisions */
 export class GameController {
@@ -30,10 +30,11 @@ export class GameController {
 		}
 
 		// stat roll for said decision
-		const attributeName =
-			gameDecision.decision.attribute?.attributeToActivate;
+		const attribute =
+			gameDecision.decision.attributeCondition?.attributeToActivate;
 		const level =
-			gameDecision.decision.attribute?.attributeLevelFor100Percent;
+			gameDecision.decision.attributeCondition
+				?.attributeLevelFor100Percent;
 
 		const onWinResult: SubmitDecisionResult = {
 			characterGainsAssetInstances:
@@ -41,15 +42,12 @@ export class GameController {
 			characterGoesToLocation:
 				gameDecision.decision.onWin.characterGoesToLocation ||
 				gameDecision.character.map.currentLocation,
-			characterGoesToPlace:
-				gameDecision.decision.onWin.characterGoesToPlace ||
-				gameDecision.character.map.currentPlace,
 			characterLoosesAssetInstances:
 				gameDecision.decision.onWin.characterLoosesAssetInstances,
 			providesAttributePoints:
 				gameDecision.decision.onWin.providesAttributePoints,
 			attributeToIncrease:
-				gameDecision.decision.attribute?.attributeToActivate,
+				gameDecision.decision.attributeCondition?.attributeToActivate,
 			characterWins: true,
 			text: gameDecision.decision.onWin.text,
 		};
@@ -59,9 +57,6 @@ export class GameController {
 			characterGoesToLocation:
 				gameDecision.decision.onFail.characterGoesToLocation ||
 				gameDecision.character.map.currentLocation,
-			characterGoesToPlace:
-				gameDecision.decision.onFail.characterGoesToPlace ||
-				gameDecision.character.map.currentPlace,
 			characterLoosesAssetInstances:
 				gameDecision.decision.onFail.characterLoosesAssetInstances,
 			characterWins: false,
@@ -71,7 +66,7 @@ export class GameController {
 		};
 
 		// if no attribute is provided, the action should automatically succeed
-		if (!attributeName || !level) {
+		if (!attribute || !level) {
 			this.mutateCharacterWithDecision(
 				onWinResult,
 				gameDecision.character
@@ -81,7 +76,7 @@ export class GameController {
 
 		// attribute check
 		const hasPlayerWonDecision = CharacterController.attributeCheck(
-			attributeName,
+			attribute.uuid,
 			level,
 			gameDecision.character
 		);
@@ -116,7 +111,7 @@ export class GameController {
 			decisionResult.attributeToIncrease
 		) {
 			CharacterController.addAttributePoints(
-				decisionResult.attributeToIncrease,
+				decisionResult.attributeToIncrease.uuid,
 				decisionResult.providesAttributePoints,
 				character
 			);
@@ -133,7 +128,6 @@ export class GameController {
 
 		// change location
 		CharacterController.moveToLocation(
-			decisionResult.characterGoesToPlace || character.map.currentPlace,
 			decisionResult.characterGoesToLocation ||
 				character.map.currentLocation,
 			character

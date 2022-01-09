@@ -1,11 +1,9 @@
 ﻿/** provides methods to interact with a character */
-import { Character } from '../model/character.interface';
-import { Location, Place } from '../model/place.interface';
-import {
-	AssetType,
-	IAssetInstance,
-	UsableAsset,
-} from '../model/asset.interface';
+import { AssetInstance } from '../model/asset/asset-instance.entity';
+import { Character } from '../model/character/character.interface';
+import { AssetType } from '../model/asset/asset-type.entity';
+import { UsableAsset } from '../model/asset/asset.entity';
+import { Location } from '../model/place/location.entity';
 
 export class CharacterController {
 	/**
@@ -15,15 +13,17 @@ export class CharacterController {
 	 * @returns true if given asset and count is available
 	 */
 	public static hasPlayerEnoughAssetInstance(
-		requiredAssetInstance: IAssetInstance,
+		requiredAssetInstance: AssetInstance,
 		character: Character
 	): boolean {
-		const [asset, requiredAmount] = requiredAssetInstance;
-		const fetchedInstance = character.assets.get(asset.name);
+		const { asset, count: requiredCount } = requiredAssetInstance;
+		const fetchedInstance = character.assetInstances.find(
+			(e) => e.asset.uuid === asset.uuid
+		);
 		if (!fetchedInstance) return false;
 
-		const [, availableAmount] = fetchedInstance;
-		return requiredAmount <= availableAmount;
+		const { count: fetchedCount } = fetchedInstance;
+		return fetchedCount >= requiredCount;
 	}
 
 	/**
@@ -32,19 +32,21 @@ export class CharacterController {
 	 * @param character character to apply changes to
 	 */
 	public static characterHasAnyOfAssetInstances(
-		assetInstances: IAssetInstance[],
+		assetInstances: AssetInstance[],
 		character: Character
 	): boolean {
 		for (const assetInstance of assetInstances) {
-			const [asset, assetCount] = assetInstance;
+			const { asset, count } = assetInstance;
 
 			// if instance does not exist, continue
-			const characterAssetInstance = character.assets.get(asset.name);
+			const characterAssetInstance = character.assetInstances.find(
+				(e) => (e.asset.uuid = asset.uuid)
+			);
 			if (characterAssetInstance === undefined) continue;
 
 			// if instance exists, count must be higher then required
-			const [, characterAssetCount] = characterAssetInstance;
-			if (characterAssetCount >= assetCount) return true;
+			const { count: characterAssetCount } = characterAssetInstance;
+			if (characterAssetCount >= count) return true;
 		}
 		return false;
 	}
@@ -55,19 +57,21 @@ export class CharacterController {
 	 * @param character character to apply the changes to
 	 */
 	public static characterHasAllOfAssetInstances(
-		assetInstances: IAssetInstance[],
+		assetInstances: AssetInstance[],
 		character: Character
 	): boolean {
 		for (const assetInstance of assetInstances) {
-			const [asset, assetCount] = assetInstance;
+			const { asset, count } = assetInstance;
 
 			// if instance does not exist, continue
-			const characterAssetInstance = character.assets.get(asset.name);
+			const characterAssetInstance = character.assetInstances.find(
+				(e) => e.asset.uuid === asset.uuid
+			);
 			if (characterAssetInstance === undefined) return false;
 
 			// if instance exists, count must be higher then required
-			const [, characterAssetCount] = characterAssetInstance;
-			if (characterAssetCount < assetCount) return false;
+			const { count: characterAssetCount } = characterAssetInstance;
+			if (characterAssetCount < count) return false;
 		}
 		return true;
 	}
@@ -78,75 +82,93 @@ export class CharacterController {
 	 * @param character the character to apply the changes to
 	 */
 	public static giveAssetInstanceToCharacter(
-		newAssetInstance: IAssetInstance,
+		newAssetInstance: AssetInstance,
 		character: Character
 	): void {
-		const [asset, amount] = newAssetInstance;
-		const existingAssetEntity = character.assets.get(asset.name);
+		const { asset, count } = newAssetInstance;
+		const existingAssetEntity = character.assetInstances.find(
+			(e) => e.asset.uuid === asset.uuid
+		);
 
 		// if entity is new, just add it
 		if (!existingAssetEntity) {
-			character.assets.set(asset.name, newAssetInstance);
+			character.assetInstances.push(newAssetInstance);
 			return;
 		}
 
 		// if entity exists, add the amount
-		const [existingAsset, existingAmount] = existingAssetEntity;
-		const newAmount = existingAmount + amount;
-		const newInstance: IAssetInstance = [existingAsset, newAmount];
+		const { count: existingAssetCount } = existingAssetEntity;
+		const newAmount = existingAssetCount + count;
 
-		character.assets.set(existingAsset.name, newInstance);
+		for (const instance of character.assetInstances) {
+			if (instance.asset.uuid === newAssetInstance.asset.uuid) {
+				instance.count = newAmount;
+			}
+		}
 	}
 
 	/**
 	 * returns true if item could be removed, false otherwise
-	 * @param assetInstanceToRemove asset and count of the item that gets removed
+	 * @param assetInstance
 	 * @param character the character to apply the changes to
 	 * @returns if the asset was found and removed
 	 */
 	public static removeAssetFromPlayer(
-		assetInstanceToRemove: IAssetInstance,
+		assetInstance: AssetInstance,
 		character: Character
 	): boolean {
 		const hasEnough = this.hasPlayerEnoughAssetInstance(
-			assetInstanceToRemove,
+			assetInstance,
 			character
 		);
 		if (!hasEnough) return false;
 
 		// check if exists
-		const [assetToRemove, toRemoveAmount] = assetInstanceToRemove;
-		const existingAssetInstance = character.assets.get(assetToRemove.name);
+		const { asset: assetToRemove, count: toRemoveAmount } = assetInstance;
+		const existingAssetInstance = character.assetInstances.find(
+			(e) => e.asset.uuid === assetToRemove.uuid
+		);
 		if (!existingAssetInstance) {
 			return false;
 		}
 
 		// update amount or delete if amount set to 0
-		const [existingAsset, existingAmount] = existingAssetInstance;
+		const { asset: existingAsset, count: existingAmount } =
+			existingAssetInstance;
 		const newAmount = existingAmount - toRemoveAmount;
 		if (newAmount <= 0) {
-			character.assets.delete(assetToRemove.name);
+			character.assetInstances.filter(
+				(characterAssetInstance) =>
+					characterAssetInstance.asset.uuid !== assetToRemove.uuid
+			);
 			return true;
 		}
 
-		character.assets.set(existingAsset.name, [existingAsset, newAmount]);
+		for (const instance of character.assetInstances) {
+			if (instance.asset.uuid === existingAsset.uuid) {
+				instance.count = newAmount;
+			}
+		}
+
 		return true;
 	}
 
 	/**
 	 * checks if player succeeds in an action
-	 * @param attribute the attribute that should be checked
+	 * @param attributeUuid
 	 * @param levelForGrantedSuccess at this level, a stat check succeeds with guarantee
 	 * @param character character to check stats for
 	 * @returns if the check succeeded or not
 	 */
 	public static attributeCheck(
-		attribute: string,
+		attributeUuid: string,
 		levelForGrantedSuccess: number,
 		character: Character
 	): boolean {
 		// if character has no such attribute, any stat check fails automatically
-		const characterAttribute = character.attributes.get(attribute);
+		const characterAttribute = character.attributes.find(
+			(e) => e.uuid === attributeUuid
+		);
 		if (!characterAttribute) return false;
 
 		// calculate level from character points
@@ -169,102 +191,76 @@ export class CharacterController {
 
 	/**
 	 * adds points to a selected attribute
-	 * @param attribute the attribute to increase
+	 * @param attributeUuid
 	 * @param points amount of points to add
 	 * @param character the character to be used
 	 */
 	public static addAttributePoints(
-		attribute: string,
+		attributeUuid: string,
 		points: number,
 		character: Character
 	): void {
-		const existingAttribute = character.attributes.get(attribute);
-		if (existingAttribute === undefined) return;
-
-		existingAttribute.pointsCollected += points;
-		character.attributes.set(attribute, existingAttribute);
+		for (const characterAttribute of character.attributes) {
+			if (characterAttribute.uuid === attributeUuid) {
+				characterAttribute.pointsCollected += points;
+				return;
+			}
+		}
 	}
 
 	/**
 	 * using an item means removing it and activating it's effects
-	 * @param itemToUse an item string to use
+	 * @param itemAssetUuid
 	 * @param character the character to apply the changes to
 	 */
-	public static useItem(itemToUse: string, character: Character): void {
+	public static useItem(itemAssetUuid: string, character: Character): void {
 		// retrieve item
-		const itemInstance = character.assets.get(itemToUse);
+		const itemInstance = character.assetInstances.find(
+			(e) => e.asset.uuid === itemAssetUuid
+		);
 		if (itemInstance === undefined) return;
-		const [item, count] = itemInstance;
+		const { asset, count } = itemInstance;
 		// needs to be usable and available
-		if (item.type !== AssetType.Usable || count <= 0) return;
+		if (asset.type !== AssetType.Usable || count <= 0) return;
 
 		// apply effect
 		CharacterController.giveAssetInstanceToCharacter(
-			(item as UsableAsset).givesCharacterAssets,
+			(asset as UsableAsset).givesCharacterAssets,
 			character
 		);
 		CharacterController.removeAssetFromPlayer(
-			(item as UsableAsset).removesCharacterAssets,
+			(asset as UsableAsset).removesCharacterAssets,
 			character
 		);
 
+		const oneItem: AssetInstance = { asset, count: 1 };
 		// remove one instance of said item
-		CharacterController.removeAssetFromPlayer([item, 1], character);
-	}
-
-	/**
-	 * adds a place with all unlocked locations to a character.
-	 * this is usually applied once a new story is fetched.
-	 * @param place the new place with all locations
-	 * @param character to which is the new place applied
-	 */
-	public static addPlaceToCharacterMap(
-		place: Place,
-		character: Character
-	): void {
-		const locations = place.locations.filter(
-			(location) =>
-				location.isUnlockedFromBeginning && location.isVisibleOnMap
-		);
-		character.map.unlockedLocations.set(place.name, locations);
+		CharacterController.removeAssetFromPlayer(oneItem, character);
 	}
 
 	/**
 	 * the map determines where the player can go by himself
-	 * @param placeOfNewLocation parent place of the new location
 	 * @param newLocation the new location the player can walk to
 	 * @param character the character to apply the changes to
 	 */
 	public static addLocationToCharacterMap(
-		placeOfNewLocation: string,
 		newLocation: Location,
 		character: Character
 	): void {
 		// fetch place, add entry to list and store place again
-		const existingPlace =
-			character.map.unlockedLocations.get(placeOfNewLocation);
-		const updatedLocations = existingPlace || []; // init if undefined
-		updatedLocations.push({
-			name: newLocation.name,
-		});
-		character.map.unlockedLocations.set(
-			placeOfNewLocation,
-			updatedLocations
+		character.map.unlockedLocations.find(
+			(location) => location.uuid === newLocation.uuid
 		);
+		if (location) return;
+		character.map.unlockedLocations.push(newLocation);
 	}
 
 	/**
 	 * sets character to a specific place and location
-	 * @param place the place the location is placed in
 	 * @param location the location the character goes to
 	 * @param character the character to apply movement to
 	 */
-	public static moveToLocation(
-		place: string,
-		location: string,
-		character: Character
-	) {
-		character.map.currentPlace = place;
+	public static moveToLocation(location: Location, character: Character) {
 		character.map.currentLocation = location;
 	}
 
