@@ -1,7 +1,6 @@
-﻿import { Entity } from '../entity.interface';
-import { Asset } from './asset.interface';
+﻿import { Asset } from './asset.entity';
 
-export interface AssetInstance extends Entity {
+export interface AssetInstance {
 	/** asset character owns */
 	asset: Asset;
 

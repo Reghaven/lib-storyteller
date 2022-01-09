@@ -15,5 +15,5 @@ export interface Character extends Entity {
 	equipment: CharacterEquipment;
 
 	// determines where the player is and where he can go
-	map: CharacterMap[];
+	map: CharacterMap;
 }
