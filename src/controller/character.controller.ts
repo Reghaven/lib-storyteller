@@ -23,7 +23,7 @@ export class CharacterController {
 		if (!fetchedInstance) return false;
 
 		const { count: fetchedCount } = fetchedInstance;
-		return fetchedCount <= requiredCount;
+		return fetchedCount >= requiredCount;
 	}
 
 	/**

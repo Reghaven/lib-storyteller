@@ -143,6 +143,10 @@ export const StoryCafeObject: Story = {
 						asset: Assets[2],
 						count: 1,
 					},
+					{
+						asset: Assets[0],
+						count: 3,
+					},
 				],
 				providesAttributePoints: 2,
 				characterWins: true,
