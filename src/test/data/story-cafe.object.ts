@@ -121,7 +121,6 @@ export const StoryCafeObject: Story = {
 			name: 'Work: Wash dishes',
 			text: "It's a hard but honest work, just don't look at the water",
 			attributeCondition: {
-				uuid: 'b327266c-1c68-4aad-bf3c-f98a4b3a0fd5',
 				attributeToActivate: Attributes[0],
 				attributeLevelFor100Percent: 1,
 			},
