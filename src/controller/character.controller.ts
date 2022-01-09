@@ -257,15 +257,10 @@ export class CharacterController {
 
 	/**
 	 * sets character to a specific place and location
-	 * @param place the place the location is placed in
 	 * @param location the location the character goes to
 	 * @param character the character to apply movement to
 	 */
-	public static moveToLocation(
-		place: string,
-		location: Location,
-		character: Character
-	) {
+	public static moveToLocation(location: Location, character: Character) {
 		character.map.currentLocation = location;
 	}
 
