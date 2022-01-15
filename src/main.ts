@@ -18,3 +18,6 @@ export * from './model/story/asset-condition.entity';
 export * from './model/story/attribute-condition.entity';
 export * from './model/story/decision.entity';
 export * from './model/story/story.entity';
+
+export * from './controller/types/submit-decision-result.interface';
+export * from './controller/types/game-state.interface';
