@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## 1.0.0-alpha.10 - 2022-01-19
+### Fixed
+- missing export for character attribute
+
 ## 1.0.0-alpha.9 - 2022-01-19
 ### Changed
 - separate attribute and relation from attribute to character

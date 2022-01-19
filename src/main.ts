@@ -6,6 +6,7 @@ export * from './model/asset/equip-effect.entity';
 export * from './model/asset/equip-effect.enum';
 
 export * from './model/attribute/attribute.entity';
+export * from './model/attribute/character-attribute.entity';
 
 export * from './model/character/character-equipment.entity';
 export * from './model/character/character-map.entity';
