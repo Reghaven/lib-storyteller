@@ -4,7 +4,8 @@ import { Asset } from '../../model/asset/asset.entity';
 import { AssetType } from '../../model/asset/asset-type.entity';
 import { Story } from '../../model/story/story.entity';
 import { Place } from '../../model/place/place.entity';
-import { Attributes } from './attributes.object';
+import { Attribute } from '../../model/attribute/attribute.entity';
+import { CharacterAttribute } from '../../model/attribute/character-attribute.entity';
 
 const Locations: Location[] = [
 	{
@@ -41,6 +42,20 @@ const Assets: Asset[] = [
 	},
 ];
 
+export const Attributes: Attribute[] = [
+	{
+		uuid: '8a098f03-2e0a-486a-b7f4-151c9fefbcb2',
+		name: 'Strength',
+	},
+];
+
+export const CharacterAttributes: CharacterAttribute[] = [
+	{
+		attribute: Attributes[0],
+		pointsCollected: 1,
+	},
+];
+
 export const CharacterObject: Character = {
 	uuid: 'fdef8e74-2104-4497-b88c-0a3063d0b21f',
 	name: 'Johnathan Dough',
@@ -50,7 +65,7 @@ export const CharacterObject: Character = {
 			count: 3,
 		},
 	],
-	attributes: [Attributes[0]],
+	attributes: [CharacterAttributes[0]],
 	equipment: {},
 	map: {
 		currentLocation: Locations[0],

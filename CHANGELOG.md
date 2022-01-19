@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## 1.0.0-alpha.9 - 2022-01-19
+### Changed
+- separate attribute and relation from attribute to character
+
 ## 1.0.0-alpha.7
 ### Fixed
 - missing import for decision result
