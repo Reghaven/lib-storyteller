@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## 1.0.0-alpha.11 - 2022-01-19
+### Fixed
+- equip effect has now a points property again
+
 ## 1.0.0-alpha.10 - 2022-01-19
 ### Fixed
 - missing export for character attribute
