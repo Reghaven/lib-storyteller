@@ -5,4 +5,5 @@ import { EquipEffectType } from './equip-effect.enum';
 export interface EquipEffect extends Entity {
 	attribute: Attribute;
 	type: EquipEffectType;
+	amount: number;
 }
