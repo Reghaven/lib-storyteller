@@ -167,7 +167,7 @@ export class CharacterController {
 	): boolean {
 		// if character has no such attribute, any stat check fails automatically
 		const characterAttribute = character.attributes.find(
-			(e) => e.uuid === attributeUuid
+			(e) => e.attribute.uuid === attributeUuid
 		);
 		if (!characterAttribute) return false;
 
@@ -201,7 +201,7 @@ export class CharacterController {
 		character: Character
 	): void {
 		for (const characterAttribute of character.attributes) {
-			if (characterAttribute.uuid === attributeUuid) {
+			if (characterAttribute.attribute.uuid === attributeUuid) {
 				characterAttribute.pointsCollected += points;
 				return;
 			}
